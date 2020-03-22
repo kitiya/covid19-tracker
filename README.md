@@ -1,68 +1,40 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Overview
 
-## Available Scripts
+# Resources
 
-In the project directory, you can run:
+## App
 
-### `npm start`
+- [Coronavirus COVID-19 Global Cases by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)](https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6)
+- [WorldoMeter: Coronavirus](https://www.worldometers.info/coronavirus/)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## API / DATA
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- [RapidAPI: Coronavirus Monitor by astsiatsko](https://rapidapi.com/astsiatsko/api/coronavirus-monitor)
+- [GitHub: CSSEGISandData / COVID-19](https://github.com/CSSEGISandData/COVID-19)
 
-### `npm test`
+## [Recharts](http://recharts.org/en-US)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [GitHub: Recharts](https://github.com/recharts/recharts)
+- [Medium: Working with React and Recharts](https://medium.com/hackernoon/how-to-create-and-deploy-a-create-react-app-with-recharts-the-wikiquotes-api-and-a-data-set-1f3a90fccb2d)
+  - [YouTube Tutorial](https://www.youtube.com/watch?v=pyjOXfz9EXQ)
+  - [Demo](https://github.com/jMuzsik/quote_and_a_chart)
 
-### `npm run build`
+## [Material UI](https://material-ui.com/)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [YoutTube Tutorial by Code Realm](https://www.youtube.com/playlist?list=PLcCp4mjO-z98WAu4sd0eVha1g-NMfzHZk)
+  - [Demo](https://codesandbox.io/s/7j9krpx9l1)
+- [Material UI Community](https://spectrum.chat/material-ui/general/whos-using-material-ui~00e6687a-9b2d-454f-97a6-950d9fde71cf)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Best Practice Projects
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [GitHub: React Most Wanted](https://github.com/TarikHuber/react-most-wanted/tree/3db8133214e9b08500ba9ea6232c7982a5faaf5a/packages/rmw-shell/src)
+- [Demo](https://www.react-most-wanted.com/)
 
-### `npm run eject`
+## Articles
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [filter() Array Method in JavaScript](https://alligator.io/js/filter-array-method/)
+- [JavaScript Array includes() Method](https://www.w3schools.com/jsref/jsref_includes_array.asp)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## UI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [Color Palette](https://coolors.co/1e2023-c6315e-2dc698-ffffff-632d70)
