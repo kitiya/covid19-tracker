@@ -19,13 +19,14 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const urlPath = process.env.PUBLIC_URL;
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={SandboxPage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/sandbox" component={HomePage} />
+          <Route exact path={urlPath + "/"} component={SandboxPage} />
+          <Route path={urlPath + "/about"} component={AboutPage} />
+          <Route path={urlPath + "/sandbox"} component={HomePage} />
           <Route
             component={() => {
               return (
