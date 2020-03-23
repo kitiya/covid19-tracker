@@ -11,8 +11,8 @@ import "./App.css";
 // Covid19 - https://coolors.co/1e2023-c6315e-2dc698-ffffff-632d70
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#673ab7" },
-    secondary: { main: "#ffffff" },
+    primary: { main: "#1e2023" }, // #673ab7
+    secondary: { main: "#D76E8E" },
     info: { main: "#f50057" },
     success: { main: "#2DC698" }
   }
