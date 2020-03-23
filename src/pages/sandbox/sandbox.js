@@ -31,6 +31,7 @@ const SandboxPage = () => {
   const apiKey = process.env.REACT_APP_COVID19_KEY;
   const [countries, setCountries] = useState([]);
   const classes = useStyles();
+  const urlPath = process.env.PUBLIC_URL;
 
   useEffect(() => {
     axios
@@ -83,7 +84,7 @@ const SandboxPage = () => {
               const { stat } = c;
               return (
                 <div key={c.id}>
-                  <img alt={c.code} src={`/icons/${c.icon}`} />
+                  <img alt={c.code} src={`${urlPath}/icons/${c.icon}`} />
                   <h1>{c.country_name}</h1>
                   <span>
                     Cases: {stat.cases} | Deaths: {stat.deaths} | Total
