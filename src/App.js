@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import HomePage from "./pages/home/home";
@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <HashRouter basename="/">
         <Switch>
           <Route exact path="/" component={SandboxPage} />
           <Route path="/about" component={AboutPage} />
@@ -36,7 +36,7 @@ function App() {
             }}
           />
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </MuiThemeProvider>
   );
 }
