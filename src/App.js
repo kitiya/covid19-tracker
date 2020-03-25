@@ -12,7 +12,7 @@ import "./App.css";
 const theme = createMuiTheme({
   palette: {
     primary: { main: "#1e2023" }, // #673ab7
-    secondary: { main: "#D76E8E" },
+    secondary: { main: "#FF6584" },
     info: { main: "#f50057" },
     success: { main: "#2DC698" }
   }
@@ -23,9 +23,9 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <HashRouter basename="/">
         <Switch>
-          <Route exact path="/" component={SandboxPage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/sandbox" component={HomePage} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/about" component={AboutPage} />
+          <Route exact path="/mui-sandbox" component={SandboxPage} />
           <Route
             component={() => {
               return (
