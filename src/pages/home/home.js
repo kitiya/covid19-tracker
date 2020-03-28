@@ -11,7 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-import { top10Countries, top20Countries, countryStore } from "../../store";
+import { top20Countries, countryStore } from "../../store";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,16 +37,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function compare(a, b) {
-  console.log(a, b);
-  if (a.stat.cases > b.stat.cases) {
-    return 1;
-  }
-  if (a.stat.cases < b.stat.cases) {
-    return -1;
-  }
-  return 0;
-}
+// function compare(a, b) {
+//   console.log(a, b);
+//   if (a.stat.cases > b.stat.cases) {
+//     return 1;
+//   }
+//   if (a.stat.cases < b.stat.cases) {
+//     return -1;
+//   }
+//   return 0;
+// }
 
 const HomePage = () => {
   const apiKey = process.env.REACT_APP_COVID19_KEY;

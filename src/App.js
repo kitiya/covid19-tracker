@@ -3,6 +3,7 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import HomePage from "./pages/home/home";
+import ChartPage from "./pages/charts/";
 import AboutPage from "./pages/about/about";
 import SandboxPage from "./pages/sandbox/sandbox";
 
@@ -23,7 +24,8 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <HashRouter basename="/">
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={ChartPage} />
+          <Route exact path="/chart" component={HomePage} />
           <Route exact path="/about" component={AboutPage} />
           <Route exact path="/mui-sandbox" component={SandboxPage} />
           <Route
