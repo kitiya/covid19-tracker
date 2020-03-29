@@ -9,15 +9,14 @@ import { Typography } from "@material-ui/core";
 const ChartData = ({ country }) => {
   const [confirmedCases, setConfirmedCases] = useState([]);
   useEffect(() => {
-    console.log(
-      `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
-    );
-    axios
-      .get(
-        `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
-      )
+    axios({
+      method: "get",
+      redirect: "follow",
+      url: `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
+    })
       .then(response => {
         const data = response.data;
+
         const c = data.reduce((cases, item) => {
           cases = [
             ...cases,

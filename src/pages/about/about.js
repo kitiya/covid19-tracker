@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../../components/header/header";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
@@ -9,7 +8,6 @@ const AboutPage = () => {
   const urlPath = process.env.PUBLIC_URL;
   return (
     <>
-      <Header />
       <Grid container style={{ textAlign: "center" }}>
         <Grid item xs>
           <Typography
@@ -47,33 +45,33 @@ const AboutPage = () => {
             <ListItem color="textSecondary">
               <Typography variant="body1" style={{ color: "#616074" }}>
                 To protect yourself and others:
-                <ul>
-                  <li>
-                    keep at least 6 feet (the length of a bicycle) from others
-                    when going out for groceries, medical trips and other
-                    essential needs
-                  </li>
-                  <li>
-                    limit the number of times you leave your home for errands
-                  </li>
-                  <li>try to shop at less busy times</li>
-                  <li>
-                    order online to have groceries or other items delivered if
-                    possible
-                  </li>
-                  <li>
-                    go for a walk in your neighbourhood or park while
-                    maintaining distance from others
-                  </li>
-                  <li>
-                    avoid overcrowding in elevators or other enclosed spaces
-                  </li>
-                  <li>follow Alberta’s recommendations on mass gatherings</li>
-                  <li>
-                    wash or sanitize your hands after touching communal surfaces
-                  </li>
-                </ul>
               </Typography>
+              <ul>
+                <li>
+                  keep at least 6 feet (the length of a bicycle) from others
+                  when going out for groceries, medical trips and other
+                  essential needs
+                </li>
+                <li>
+                  limit the number of times you leave your home for errands
+                </li>
+                <li>try to shop at less busy times</li>
+                <li>
+                  order online to have groceries or other items delivered if
+                  possible
+                </li>
+                <li>
+                  go for a walk in your neighbourhood or park while maintaining
+                  distance from others
+                </li>
+                <li>
+                  avoid overcrowding in elevators or other enclosed spaces
+                </li>
+                <li>follow Alberta’s recommendations on mass gatherings</li>
+                <li>
+                  wash or sanitize your hands after touching communal surfaces
+                </li>
+              </ul>
             </ListItem>
           </List>
         </Grid>

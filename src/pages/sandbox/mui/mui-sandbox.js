@@ -1,13 +1,12 @@
 import React from "react";
-import Header from "../../components/header/header";
+
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
-const SandboxPage = () => {
+const MuiSandboxPage = () => {
   const urlPath = process.env.PUBLIC_URL;
   return (
     <Box style={{ textAlign: "center" }}>
-      <Header />
       <img
         alt=""
         src={`${urlPath}/images/svg/wash_hands.svg`}
@@ -38,4 +37,4 @@ const SandboxPage = () => {
   );
 };
 
-export default SandboxPage;
+export default MuiSandboxPage;

@@ -2,10 +2,13 @@ import React from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
+import Header from "./components/header/header";
 import HomePage from "./pages/home/home";
 import ChartPage from "./pages/charts/";
 import AboutPage from "./pages/about/about";
-import SandboxPage from "./pages/sandbox/sandbox";
+import MuiSandboxPage from "./pages/sandbox/mui/mui-sandbox";
+import ReChartSandboxPage from "./pages/sandbox/rechart/rechart-sandbox";
+import RapidApiPage from "./pages/sandbox/rapid-api/rapid-api";
 
 import "./App.css";
 
@@ -23,11 +26,14 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <HashRouter basename="/">
+        <Header />
         <Switch>
           <Route exact path="/" component={ChartPage} />
           <Route exact path="/chart" component={HomePage} />
           <Route exact path="/about" component={AboutPage} />
-          <Route exact path="/mui-sandbox" component={SandboxPage} />
+          <Route exact path="/mui-sandbox" component={MuiSandboxPage} />
+          <Route exact path="/rechart-sandbox" component={ReChartSandboxPage} />
+          <Route exact path="/rapid-api" component={RapidApiPage} />
           <Route
             component={() => {
               return (

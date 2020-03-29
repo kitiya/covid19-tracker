@@ -3,15 +3,13 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
-import Header from "../../components/header/header";
 import ChartData from "./chart-data";
 
 const ChartPage = () => {
-  const countries = ["italy", "spain", "thailand", "france"];
+  const countries = ["italy"];
 
   return (
     <>
-      <Header />
       <Grid
         container
         style={{

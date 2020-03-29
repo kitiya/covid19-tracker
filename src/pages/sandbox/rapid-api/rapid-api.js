@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-import { top20Countries, countryStore } from "../../store";
+import { top20Countries, countryStore } from "../../../store";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 //   return 0;
 // }
 
-const HomePage = () => {
+const RapidApiPage = () => {
   const apiKey = process.env.REACT_APP_COVID19_KEY;
   const [countries, setCountries] = useState([]);
   const classes = useStyles();
@@ -173,4 +173,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default RapidApiPage;
