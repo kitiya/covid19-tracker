@@ -56,3 +56,18 @@ export const top20Countries = [
   "UK",
   "USA"
 ];
+
+export const banners = [
+  "Avoid going out during the lockdown. Help break the chain of spread.",
+  "Be a true Canadian. Show compassion. Be considerate. Help those in need. We will get through this!",
+  "Be compassionate! Help those in need like the elderly and poor. They are facing a crisis you cannot even imagine!",
+  "Be considerate : While buying essentials remember : You need to share with Others!",
+  "Do not panic! ❌ Your essential needs will be taken care of. DO NOT HOARD.",
+  "Don't Hoard groceries and essentials. Please ensure that people who are in need don't face a shortage because of you!",
+  "Going out to buy essentials? Social Distancing is KEY! Maintain 2 metres distance between each other in the line.",
+  "Help out your workers and domestic workers by not cutting their salaries. Show the true Canadian spirit!",
+  "Help the medical fraternity by staying at home!",
+  "Plan and calculate your essential needs for the next three weeks and get only what is bare minimum needed.",
+  "Lockdown means LOCKDOWN! Avoid going out unless absolutely necessary. Stay safe!",
+  "Wash your hands with soap and water often. Keep the virus at bay."
+];

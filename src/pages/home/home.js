@@ -2,174 +2,328 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-import { top20Countries, countryStore } from "../../store";
+import MiniChart from "../../components/charts/minichart";
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    display: "flex",
-    flexFlow: "row wrap",
-    padding: 50,
-    background: "#fafafa",
-    justifyContent: "center"
-  },
-  cardRoot: {
-    margin: 3,
-    flex: "1 1 400px"
-  },
-  flagIcon: {
-    height: 50
-  },
-  totalCaseGrid: {
-    textAlign: "center"
-  },
-  totalCaseGridRow: {
-    marginTop: 10,
-    color: "#504E65"
-  }
-}));
+const useStyles = makeStyles(theme => {
+  const pink = theme.palette.cases.confirmed;
+  const blue = theme.palette.cases.active;
+  const teal = theme.palette.cases.recovered;
+  const blueGrey = theme.palette.cases.deceased;
 
-// function compare(a, b) {
-//   console.log(a, b);
-//   if (a.stat.cases > b.stat.cases) {
-//     return 1;
-//   }
-//   if (a.stat.cases < b.stat.cases) {
-//     return -1;
-//   }
-//   return 0;
-// }
+  return {
+    container: {
+      marginTop: 50
+    },
+    cardWrapper: {
+      background: "#eaeaea"
+    },
+    confirmedCard: {
+      color: pink[400]
+    },
+    activeCard: {
+      color: blue[500]
+    },
+    recoveredCard: {
+      color: teal[400]
+    },
+    deceasedCard: {
+      color: blueGrey[500]
+    },
+    title: {
+      textAlign: "center",
+      textTransform: "uppercase",
+      marginBottom: "0.5rem",
+      fontWeight: "bold"
+    },
+    newCases: {
+      textAlign: "center",
+      fontSize: "0.85rem",
+      fontWeight: "bold"
+    },
+    totalCases: {
+      textAlign: "center",
+      fontWeight: "bold",
+      marginBottom: "0.5"
+    }
+  };
+});
 
 const HomePage = () => {
-  const apiKey = process.env.REACT_APP_COVID19_KEY;
-  const [countries, setCountries] = useState([]);
+  const [summary, setSummary] = useState([]);
+  const [confirmedSeries, setConfirmedSeries] = useState([]);
+  const [recoveredSeries, setRecoveredSeries] = useState([]);
+  const [deceasedSeries, setDeceasedSeries] = useState([]);
+  // const [confirmedProvinces, setConfirmedProvinces] = useState([]);
   const classes = useStyles();
-  const urlPath = process.env.PUBLIC_URL;
+
+  // fetch summary
+  useEffect(() => {
+    function fetchSummary() {
+      axios
+        .get("https://api.covid19api.com/summary")
+        .then(response => {
+          const countries = response.data.Countries;
+          const canadaData = countries.filter(country => {
+            return country.Country === "Canada";
+          });
+
+          setSummary(canadaData[0]);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    fetchSummary();
+  }, []);
+
+  // useEffect(() => {
+  //   function fetchSummary() {
+  //     axios
+  //       .get("https://corona.lmao.ninja/v2/jhucsse")
+  //       .then(response => {
+  //         console.log("ninja", response.data);
+
+  //         const countries = response.data.Countries;
+  //         const canadaData = countries.filter(country => {
+  //           return country.Country === "Canada";
+  //         });
+
+  //         // setSummary(canadaData[0]);
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
+  //   }
+  //   fetchSummary();
+  // }, []);
+
+  // fetch timeseries
+  // useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       "Access-Control-Allow-Origin": "*"
+  //     },
+  //     proxy: {
+  //       host: "localhost",
+  //       port: 3019
+  //     }
+  //   };
+
+  //   const confirmedUrl =
+  //     "https://api.covid19api.com/total/country/canada/status/confirmed";
+  //   const recoveredUrl =
+  //     "https://api.covid19api.com/total/country/canada/status/recovered";
+  //   const deceasedUrl =
+  //     "https://api.covid19api.com/total/country/canada/status/deaths";
+
+  //   const confirmedRequest = axios.get(confirmedUrl);
+  //   const recoveredRequest = axios.get(recoveredUrl, config);
+  //   const deceasedRequest = axios.get(deceasedUrl, config);
+
+  //   axios
+  //     .all([confirmedRequest, recoveredRequest, deceasedRequest])
+  //     .then(
+  //       axios.spread((...responses) => {
+  //         const confirmedResponse = responses[0];
+  //         const recoveredResponse = responses[1];
+  //         const deceasedResponse = responses[2];
+  //       })
+  //     )
+  //     .catch(err => console.log(err));
+  // }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php",
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "coronavirus-monitor.p.rapidapi.com",
-            "x-rapidapi-key": apiKey
-          }
-        }
-      )
-      .then(response => {
-        const data = response.data.countries_stat;
-        const fetchCountries = data.filter(item => {
-          return top20Countries.includes(item.country_name);
+    const fetchConfirmedSeries = () => {
+      axios
+        .get(`https://api.covid19api.com/total/country/canada/status/confirmed`)
+        .then(response => {
+          const data = response.data;
+          const series = data.reduce((acc, item) => {
+            return [
+              ...acc,
+              { date: item.Date.slice(5, 10), cases: item.Cases }
+            ];
+          }, []);
+
+          setConfirmedSeries(series);
+        })
+        .catch(err => {
+          console.log("[Fetch confirmed Error]", err);
         });
+    };
 
-        const concatCountries = [...fetchCountries, ...countryStore];
-
-        const mergeCountries = concatCountries.reduce((countries, c) => {
-          if (c.cases) {
-            countries[c.country_name] = {};
-            countries[c.country_name]["stat"] = {
-              ...c
-            };
-          } else {
-            countries[c.country_name] = { ...countries[c.country_name], ...c };
+    const fetchRecoveredSeries = () => {
+      axios
+        .get(
+          `https://api.covid19api.com/total/country/canada/status/recovered`,
+          {
+            headers: { "Access-Control-Allow-Origin": "*" },
+            proxy: {
+              host: "localhost",
+              port: 3019
+            }
           }
-          return countries;
-        }, []);
+        )
+        .then(response => {
+          const data = response.data;
+          const series = data.reduce((acc, item) => {
+            return [
+              ...acc,
+              { date: item.Date.slice(5, 10), cases: item.Cases }
+            ];
+          }, []);
 
-        setCountries(Object.entries(mergeCountries));
+          setRecoveredSeries(series);
+        })
+        .catch(err => {
+          console.log("[Fetch Recovered Error]", err);
+        });
+    };
+
+    const fetchDeceasedSeries = () => {
+      axios
+        .get(`https://api.covid19api.com/total/country/canada/status/deaths`)
+        .then(response => {
+          const data = response.data;
+          const series = data.reduce((acc, item) => {
+            return [
+              ...acc,
+              { date: item.Date.slice(5, 10), cases: item.Cases }
+            ];
+          }, []);
+
+          setDeceasedSeries(series);
+        })
+        .catch(err => {
+          console.log("[Fetch Deceased Error]", err);
+        });
+    };
+
+    fetchConfirmedSeries();
+    fetchRecoveredSeries();
+    fetchDeceasedSeries();
+  }, []);
+
+  // fetch country
+  useEffect(() => {
+    const provinces = [
+      "British Columbia",
+      "Alberta",
+      "Nova Scotia",
+      "Ontario",
+      "Prince Edward Island",
+      "Quebec",
+      "Saskatchewan",
+      "Manitoba"
+    ];
+
+    console.log(provinces);
+    axios
+      .get("https://api.covid19api.com/country/canada/status/confirmed")
+      .then(response => {
+        const data = response.data;
+        console.log("data", data);
       })
       .catch(err => {
-        console.log(err);
+        console.log("[Fetch Province Error]", err);
       });
-  }, [apiKey]);
+  }, []);
 
-  console.log(countries);
   return (
-    <>
-      <Grid container>
-        <Grid item sm>
-          <Paper className={classes.paper}>
-            {countries.map(cItem => {
-              const c = cItem[1];
-              const { stat } = c;
-              return (
-                <Card className={classes.cardRoot} key={c.stat.country_name}>
-                  <CardHeader
-                    className={classes.totalCaseGrid}
-                    title={
-                      <>
-                        <img
-                          alt=""
-                          src={`${urlPath}/icons/${c.icon}`}
-                          className={classes.flagIcon}
-                        />
-                        <Typography variant="h5" component="h2">
-                          {c.stat.country_name}
-                        </Typography>
-                      </>
-                    }
-                  />
-                  <CardContent>
-                    <Grid container>
-                      <Grid item xs className={classes.totalCaseGrid}>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          Cases: {stat.cases}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs className={classes.totalCaseGrid}>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          Deaths: {stat.deaths}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs className={classes.totalCaseGrid}>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          Recovered: {stat.total_recovered}
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        className={`${classes.totalCaseGrid} ${classes.totalCaseGridRow}`}
-                      >
-                        <Typography variant="body1" component="p">
-                          Total cases per 1m population:
-                          {stat.total_cases_per_1m_population}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </Paper>
+    <Container maxWidth="md" className={classes.container}>
+      <Grid container spacing={1}>
+        <Grid item sm={3}>
+          <Card className={`${classes.cardWrapper} ${classes.confirmedCard}`}>
+            <CardContent>
+              <Typography variant="h6" className={classes.title}>
+                Confirmed
+              </Typography>
+              <Typography variant="body1" className={classes.newCases}>
+                {`[+${summary.NewConfirmed}]`}
+              </Typography>
+              <Typography variant="h4" className={classes.totalCases}>
+                {summary.TotalConfirmed}
+              </Typography>
+              <Grid container justify="center">
+                <Grid item>
+                  <MiniChart data={confirmedSeries} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
         </Grid>
-        {/* <Grid item sm>
-          <Paper className={classes.paper}>Right</Paper>
-        </Grid> */}
+        <Grid item sm={3}>
+          <Card className={`${classes.cardWrapper} ${classes.activeCard}`}>
+            <CardContent>
+              <Typography variant="h6" className={classes.title}>
+                Active
+              </Typography>
+              <Typography variant="body1" className={classes.newCases}>
+                &nbsp;
+              </Typography>
+              <Typography variant="h4" className={classes.totalCases}>
+                {summary.TotalConfirmed
+                  ? summary.TotalConfirmed -
+                    summary.TotalRecovered -
+                    summary.TotalDeaths
+                  : null}
+              </Typography>
+              <Grid container justify="center">
+                <Grid item>
+                  <MiniChart data={recoveredSeries} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={3}>
+          <Card className={`${classes.cardWrapper} ${classes.recoveredCard}`}>
+            <CardContent>
+              <Typography variant="h6" className={classes.title}>
+                Recovered
+              </Typography>
+              <Typography variant="body1" className={classes.newCases}>
+                {`[+${summary.NewRecovered}]`}
+              </Typography>
+              <Typography variant="h4" className={classes.totalCases}>
+                {summary.TotalRecovered}
+              </Typography>
+              <Grid container justify="center">
+                <Grid item>
+                  <MiniChart data={recoveredSeries} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item sm={3}>
+          <Card className={`${classes.cardWrapper} ${classes.deceasedCard}`}>
+            <CardContent>
+              <Typography variant="h6" className={classes.title}>
+                Deceased
+              </Typography>
+              <Typography variant="body1" className={classes.newCases}>
+                {`[+${summary.NewDeaths}]`}
+              </Typography>
+              <Typography variant="h4" className={classes.totalCases}>
+                {summary.TotalDeaths}
+              </Typography>
+              <Grid container justify="center">
+                <Grid item>
+                  <MiniChart data={deceasedSeries} />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
-
-      {/* <Footer /> */}
-    </>
+    </Container>
   );
 };
 
