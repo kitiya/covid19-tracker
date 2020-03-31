@@ -4,6 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import CountrySummary from "../../components/country-summary/country-summary";
 import ProvinceSummary from "../../components/province-summary/province-summary";
+import Banner from "../../components/banner/banner";
 
 const useStyles = makeStyles(theme => {
   // const confirmed = theme.palette.cases.confirmed[400]; //pink
@@ -158,6 +159,7 @@ const HomePage = () => {
 
   return (
     <>
+      <Banner />
       <CountrySummary
         countrySummary={countrySummary}
         countrySeries={countrySeries}

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => {
   const deceased = theme.palette.cases.deceased[500]; // blue grey
   return {
     container: {
-      marginTop: 50
+      marginTop: 20
     },
     gridContainer: {
       justifyContent: "center"
