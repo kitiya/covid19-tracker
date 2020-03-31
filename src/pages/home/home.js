@@ -1,67 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 
-import MiniChart from "../../components/charts/minichart";
+import CountrySummary from "../../components/country-summary/country-summary";
+import ProvinceSummary from "../../components/province-summary/province-summary";
 
 const useStyles = makeStyles(theme => {
-  const pink = theme.palette.cases.confirmed;
-  const blue = theme.palette.cases.active;
-  const teal = theme.palette.cases.recovered;
-  const blueGrey = theme.palette.cases.deceased;
+  // const confirmed = theme.palette.cases.confirmed[400]; //pink
+  // const active = theme.palette.cases.active[500]; //blue
+  // const recovered = theme.palette.cases.recovered[500]; // teal
+  // const deceased = theme.palette.cases.deceased[500]; // blue grey
 
-  return {
-    container: {
-      marginTop: 50
-    },
-    gridContainer: {
-      justifyContent: "center"
-    },
-    cardWrapper: {
-      background: "#eaeaea"
-    },
-    confirmedCard: {
-      color: pink[400]
-    },
-    activeCard: {
-      color: blue[500]
-    },
-    recoveredCard: {
-      color: teal[500]
-    },
-    deceasedCard: {
-      color: blueGrey[500]
-    },
-    title: {
-      textAlign: "center",
-      textTransform: "uppercase",
-      marginBottom: "0.5rem",
-      fontWeight: "bold"
-    },
-    newCases: {
-      textAlign: "center",
-      fontSize: "0.85rem",
-      fontWeight: "bold"
-    },
-    totalCases: {
-      textAlign: "center",
-      fontWeight: "bold",
-      marginBottom: "0.5"
-    }
-  };
+  return {};
 });
 
 const HomePage = () => {
   const [countrySummary, setCountrySummary] = useState([]);
   const [countrySeries, setCountrySeries] = useState([]);
-  const classes = useStyles();
-  const theme = useTheme();
+  const [provinceTableData, setProvinceTableData] = useState([]);
+  const [provinceChartData, setProvinceChartData] = useState([]);
+  // const classes = useStyles();
+  // const theme = useTheme();
 
   // fetch country summary
   useEffect(() => {
@@ -83,6 +42,7 @@ const HomePage = () => {
     fetchCountrySummary();
   }, []);
 
+  // fetch country series
   useEffect(() => {
     const fetchCountrySeries = () => {
       axios
@@ -117,123 +77,96 @@ const HomePage = () => {
     fetchCountrySeries();
   }, []);
 
-  // fetch country
+  // fetch province summary
   useEffect(() => {
-    // const provinces = [
-    //   "British Columbia",
-    //   "Alberta",
-    //   "Nova Scotia",
-    //   "Ontario",
-    //   "Prince Edward Island",
-    //   "Quebec",
-    //   "Saskatchewan",
-    //   "Manitoba"
-    // ];
+    const provinces = [
+      "Alberta",
+      "British Columbia",
+      // "Diamond Princess",
+      "Grand Princess",
+      "Manitoba",
+      "New Brunswick",
+      "Newfoundland and Labrador",
+      "Northwest Territories",
+      "Nova Scotia",
+      "Ontario",
+      "Prince Edward Island",
+      "Quebec",
+      "Saskatchewan",
+      "Yukon"
+    ];
 
-    // console.log(provinces);
-    axios
-      .get("https://api.covid19api.com/country/canada/status/confirmed")
-      .then(response => {
-        const data = response.data;
-        // console.log("data", data);
-      })
-      .catch(err => {
-        console.log("[Fetch province]", err);
-      });
+    const fetchProvinceSummary = () => {
+      axios
+        .get("https://corona.lmao.ninja/v2/jhucsse")
+        .then(response => {
+          // console.log("DATA", response.data);
+          const data = response.data.filter(country => {
+            return (
+              country.country === "Canada" &&
+              provinces.includes(country.province)
+            );
+          });
+
+          // console.log("province summary", data);
+
+          //provinceTableData
+          const tableData = data.reduce((acc, item) => {
+            acc = [
+              ...acc,
+              {
+                province: item.province,
+                confirmed: item.stats.confirmed,
+                deaths: item.stats.deaths
+              }
+            ];
+            return acc;
+          }, []);
+          setProvinceTableData(tableData);
+          // console.log("Table Data", tableData);
+
+          // province chart data
+          const chartData = data.reduce(
+            (acc, item) => {
+              acc.confirmed = [
+                ...acc.confirmed,
+                { province: item.province, cases: item.stats.confirmed }
+              ];
+              acc.recovered = [
+                ...acc.recovered,
+                { province: item.province, cases: item.stats.recovered }
+              ];
+              acc.deaths = [
+                ...acc.deaths,
+                { province: item.province, cases: item.stats.deaths }
+              ];
+              return acc;
+            },
+            { confirmed: [], recovered: [], deaths: [] }
+          );
+
+          // console.log("chart data", chartData);
+          setProvinceChartData(chartData);
+        })
+        .catch(err => {
+          console.log("[Fetch province]", err);
+        });
+    };
+
+    fetchProvinceSummary();
   }, []);
 
   return (
-    <Container maxWidth="md" className={classes.container}>
-      <Grid container spacing={1} className={classes.gridContainer}>
-        <Grid item sm={3}>
-          <Card className={`${classes.cardWrapper} ${classes.confirmedCard}`}>
-            <CardContent>
-              <Typography variant="h6" className={classes.title}>
-                Confirmed
-              </Typography>
-              <Typography variant="body1" className={classes.newCases}>
-                {`[+${countrySummary.todayCases}]`}
-              </Typography>
-              <Typography variant="h4" className={classes.totalCases}>
-                {countrySummary.cases}
-              </Typography>
-              <Grid container justify="center">
-                <Grid item>
-                  <MiniChart
-                    data={countrySeries.confirmed}
-                    stroke={theme.palette.cases.confirmed[400]}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        {/* <Grid item sm={3}>
-          <Card className={`${classes.cardWrapper} ${classes.activeCard}`}>
-            <CardContent>
-              <Typography variant="h6" className={classes.title}>
-                Active
-              </Typography>
-              <Typography variant="body1" className={classes.newCases}>
-                &nbsp;
-              </Typography>
-              <Typography variant="h4" className={classes.totalCases}>
-                {countrySummary.active}
-              </Typography>
-              <Grid container justify="center">
-                <Grid item>&nbsp;</Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid> */}
-        <Grid item sm={3}>
-          <Card className={`${classes.cardWrapper} ${classes.recoveredCard}`}>
-            <CardContent>
-              <Typography variant="h6" className={classes.title}>
-                Recovered
-              </Typography>
-              <Typography variant="body1" className={classes.newCases}>
-                &nbsp;
-              </Typography>
-              <Typography variant="h4" className={classes.totalCases}>
-                {countrySummary.recovered}
-              </Typography>
-              <Grid container justify="center">
-                <Grid item>
-                  <MiniChart
-                    data={countrySeries.recovered}
-                    stroke={theme.palette.cases.recovered[500]}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item sm={3}>
-          <Card className={`${classes.cardWrapper} ${classes.deceasedCard}`}>
-            <CardContent>
-              <Typography variant="h6" className={classes.title}>
-                Deceased
-              </Typography>
-              <Typography variant="body1" className={classes.newCases}>
-                {`[+${countrySummary.todayDeaths}]`}
-              </Typography>
-              <Typography variant="h4" className={classes.totalCases}>
-                {countrySummary.deaths}
-              </Typography>
-              <Grid container justify="center">
-                <Grid item>
-                  <MiniChart
-                    data={countrySeries.deaths}
-                    stroke={theme.palette.cases.deceased[500]}
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Container>
+    <>
+      <CountrySummary
+        countrySummary={countrySummary}
+        countrySeries={countrySeries}
+      />
+      <ProvinceSummary
+        tableData={provinceTableData}
+        chartData={provinceChartData}
+      />
+    </>
   );
 };
 
