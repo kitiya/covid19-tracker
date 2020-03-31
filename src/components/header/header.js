@@ -7,10 +7,20 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
     justifyContent: "space-between"
+  },
+  logoWrapper: {
+    display: "flex",
+    alignItems: "center",
+    color: "white"
+  },
+  logo: {
+    height: 50,
+    marginRight: 10
   },
   navlink: {
     textDecoration: "none"
@@ -50,7 +60,25 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
-        <Typography varient="highlight">COVID-19 TRACKER</Typography>
+        <Typography
+          varient="h6"
+          component={NavLink}
+          exact
+          to="/"
+          className={classes.navlink}
+        >
+          <div className={classes.logoWrapper}>
+            <img
+              className={classes.logo}
+              alt=""
+              src={`${process.env.PUBLIC_URL}/favicon.png`}
+            />
+            <Typography display="inline" varient="highlight">
+              COVID-19 TRACKER
+            </Typography>
+          </div>
+        </Typography>
+
         <div>
           <Button>
             <MenuText path="/" text="Home" classes={classes}></MenuText>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => {
     container: {
       marginTop: 50
     },
+    gridContainer: {
+      justifyContent: "center"
+    },
     cardWrapper: {
       background: "#eaeaea"
     },
@@ -30,7 +33,7 @@ const useStyles = makeStyles(theme => {
       color: blue[500]
     },
     recoveredCard: {
-      color: teal[400]
+      color: teal[500]
     },
     deceasedCard: {
       color: blueGrey[500]
@@ -55,189 +58,93 @@ const useStyles = makeStyles(theme => {
 });
 
 const HomePage = () => {
-  const [summary, setSummary] = useState([]);
-  const [confirmedSeries, setConfirmedSeries] = useState([]);
-  const [recoveredSeries, setRecoveredSeries] = useState([]);
-  const [deceasedSeries, setDeceasedSeries] = useState([]);
-  // const [confirmedProvinces, setConfirmedProvinces] = useState([]);
+  const [countrySummary, setCountrySummary] = useState([]);
+  const [countrySeries, setCountrySeries] = useState([]);
   const classes = useStyles();
+  const theme = useTheme();
 
-  // fetch summary
+  // fetch country summary
   useEffect(() => {
-    function fetchSummary() {
+    function fetchCountrySummary() {
       axios
-        .get("https://api.covid19api.com/summary")
+        .get("https://corona.lmao.ninja/countries/")
         .then(response => {
-          const countries = response.data.Countries;
-          const canadaData = countries.filter(country => {
-            return country.Country === "Canada";
+          const countries = response.data;
+          const countryData = countries.filter(country => {
+            return country.country === "Canada";
           });
 
-          setSummary(canadaData[0]);
+          setCountrySummary(countryData[0]);
         })
         .catch(err => {
-          console.log(err);
+          console.log("[Fetch country summary]", err);
         });
     }
-    fetchSummary();
+    fetchCountrySummary();
   }, []);
 
-  // useEffect(() => {
-  //   function fetchSummary() {
-  //     axios
-  //       .get("https://corona.lmao.ninja/v2/jhucsse")
-  //       .then(response => {
-  //         console.log("ninja", response.data);
-
-  //         const countries = response.data.Countries;
-  //         const canadaData = countries.filter(country => {
-  //           return country.Country === "Canada";
-  //         });
-
-  //         // setSummary(canadaData[0]);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   }
-  //   fetchSummary();
-  // }, []);
-
-  // fetch timeseries
-  // useEffect(() => {
-  //   const config = {
-  //     headers: {
-  //       "Access-Control-Allow-Origin": "*"
-  //     },
-  //     proxy: {
-  //       host: "localhost",
-  //       port: 3019
-  //     }
-  //   };
-
-  //   const confirmedUrl =
-  //     "https://api.covid19api.com/total/country/canada/status/confirmed";
-  //   const recoveredUrl =
-  //     "https://api.covid19api.com/total/country/canada/status/recovered";
-  //   const deceasedUrl =
-  //     "https://api.covid19api.com/total/country/canada/status/deaths";
-
-  //   const confirmedRequest = axios.get(confirmedUrl);
-  //   const recoveredRequest = axios.get(recoveredUrl, config);
-  //   const deceasedRequest = axios.get(deceasedUrl, config);
-
-  //   axios
-  //     .all([confirmedRequest, recoveredRequest, deceasedRequest])
-  //     .then(
-  //       axios.spread((...responses) => {
-  //         const confirmedResponse = responses[0];
-  //         const recoveredResponse = responses[1];
-  //         const deceasedResponse = responses[2];
-  //       })
-  //     )
-  //     .catch(err => console.log(err));
-  // }, []);
-
   useEffect(() => {
-    const fetchConfirmedSeries = () => {
+    const fetchCountrySeries = () => {
       axios
-        .get(`https://api.covid19api.com/total/country/canada/status/confirmed`)
+        .get(`https://corona.lmao.ninja/v2/historical/canada/`)
         .then(response => {
-          const data = response.data;
-          const series = data.reduce((acc, item) => {
-            return [
-              ...acc,
-              { date: item.Date.slice(5, 10), cases: item.Cases }
-            ];
-          }, []);
+          const caseData = response.data.timeline;
 
-          setConfirmedSeries(series);
+          let confirmedCases = Object.entries(caseData.cases).map(item => {
+            return { date: item[0], cases: item[1] };
+          });
+
+          let recoveredCases = Object.entries(caseData.recovered).map(item => {
+            return { date: item[0], cases: item[1] };
+          });
+
+          let deathCases = Object.entries(caseData.deaths).map(item => {
+            return { date: item[0], cases: item[1] };
+          });
+
+          const cases = {
+            confirmed: confirmedCases,
+            recovered: recoveredCases,
+            deaths: deathCases
+          };
+          setCountrySeries(cases);
         })
         .catch(err => {
-          console.log("[Fetch confirmed Error]", err);
+          console.log("[Fetch country series]", err);
         });
     };
 
-    const fetchRecoveredSeries = () => {
-      axios
-        .get(
-          `https://api.covid19api.com/total/country/canada/status/recovered`,
-          {
-            headers: { "Access-Control-Allow-Origin": "*" },
-            proxy: {
-              host: "localhost",
-              port: 3019
-            }
-          }
-        )
-        .then(response => {
-          const data = response.data;
-          const series = data.reduce((acc, item) => {
-            return [
-              ...acc,
-              { date: item.Date.slice(5, 10), cases: item.Cases }
-            ];
-          }, []);
-
-          setRecoveredSeries(series);
-        })
-        .catch(err => {
-          console.log("[Fetch Recovered Error]", err);
-        });
-    };
-
-    const fetchDeceasedSeries = () => {
-      axios
-        .get(`https://api.covid19api.com/total/country/canada/status/deaths`)
-        .then(response => {
-          const data = response.data;
-          const series = data.reduce((acc, item) => {
-            return [
-              ...acc,
-              { date: item.Date.slice(5, 10), cases: item.Cases }
-            ];
-          }, []);
-
-          setDeceasedSeries(series);
-        })
-        .catch(err => {
-          console.log("[Fetch Deceased Error]", err);
-        });
-    };
-
-    fetchConfirmedSeries();
-    fetchRecoveredSeries();
-    fetchDeceasedSeries();
+    fetchCountrySeries();
   }, []);
 
   // fetch country
   useEffect(() => {
-    const provinces = [
-      "British Columbia",
-      "Alberta",
-      "Nova Scotia",
-      "Ontario",
-      "Prince Edward Island",
-      "Quebec",
-      "Saskatchewan",
-      "Manitoba"
-    ];
+    // const provinces = [
+    //   "British Columbia",
+    //   "Alberta",
+    //   "Nova Scotia",
+    //   "Ontario",
+    //   "Prince Edward Island",
+    //   "Quebec",
+    //   "Saskatchewan",
+    //   "Manitoba"
+    // ];
 
-    console.log(provinces);
+    // console.log(provinces);
     axios
       .get("https://api.covid19api.com/country/canada/status/confirmed")
       .then(response => {
         const data = response.data;
-        console.log("data", data);
+        // console.log("data", data);
       })
       .catch(err => {
-        console.log("[Fetch Province Error]", err);
+        console.log("[Fetch province]", err);
       });
   }, []);
 
   return (
     <Container maxWidth="md" className={classes.container}>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} className={classes.gridContainer}>
         <Grid item sm={3}>
           <Card className={`${classes.cardWrapper} ${classes.confirmedCard}`}>
             <CardContent>
@@ -245,20 +152,23 @@ const HomePage = () => {
                 Confirmed
               </Typography>
               <Typography variant="body1" className={classes.newCases}>
-                {`[+${summary.NewConfirmed}]`}
+                {`[+${countrySummary.todayCases}]`}
               </Typography>
               <Typography variant="h4" className={classes.totalCases}>
-                {summary.TotalConfirmed}
+                {countrySummary.cases}
               </Typography>
               <Grid container justify="center">
                 <Grid item>
-                  <MiniChart data={confirmedSeries} />
+                  <MiniChart
+                    data={countrySeries.confirmed}
+                    stroke={theme.palette.cases.confirmed[400]}
+                  />
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item sm={3}>
+        {/* <Grid item sm={3}>
           <Card className={`${classes.cardWrapper} ${classes.activeCard}`}>
             <CardContent>
               <Typography variant="h6" className={classes.title}>
@@ -268,20 +178,14 @@ const HomePage = () => {
                 &nbsp;
               </Typography>
               <Typography variant="h4" className={classes.totalCases}>
-                {summary.TotalConfirmed
-                  ? summary.TotalConfirmed -
-                    summary.TotalRecovered -
-                    summary.TotalDeaths
-                  : null}
+                {countrySummary.active}
               </Typography>
               <Grid container justify="center">
-                <Grid item>
-                  <MiniChart data={recoveredSeries} />
-                </Grid>
+                <Grid item>&nbsp;</Grid>
               </Grid>
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
         <Grid item sm={3}>
           <Card className={`${classes.cardWrapper} ${classes.recoveredCard}`}>
             <CardContent>
@@ -289,14 +193,17 @@ const HomePage = () => {
                 Recovered
               </Typography>
               <Typography variant="body1" className={classes.newCases}>
-                {`[+${summary.NewRecovered}]`}
+                &nbsp;
               </Typography>
               <Typography variant="h4" className={classes.totalCases}>
-                {summary.TotalRecovered}
+                {countrySummary.recovered}
               </Typography>
               <Grid container justify="center">
                 <Grid item>
-                  <MiniChart data={recoveredSeries} />
+                  <MiniChart
+                    data={countrySeries.recovered}
+                    stroke={theme.palette.cases.recovered[500]}
+                  />
                 </Grid>
               </Grid>
             </CardContent>
@@ -309,14 +216,17 @@ const HomePage = () => {
                 Deceased
               </Typography>
               <Typography variant="body1" className={classes.newCases}>
-                {`[+${summary.NewDeaths}]`}
+                {`[+${countrySummary.todayDeaths}]`}
               </Typography>
               <Typography variant="h4" className={classes.totalCases}>
-                {summary.TotalDeaths}
+                {countrySummary.deaths}
               </Typography>
               <Grid container justify="center">
                 <Grid item>
-                  <MiniChart data={deceasedSeries} />
+                  <MiniChart
+                    data={countrySeries.deaths}
+                    stroke={theme.palette.cases.deceased[500]}
+                  />
                 </Grid>
               </Grid>
             </CardContent>
