@@ -8,6 +8,7 @@ import blue from "@material-ui/core/colors/blue";
 import blueGrey from "@material-ui/core/colors/blueGrey";
 
 import Header from "./components/header/header";
+import Banner from "./components/banner/banner";
 import HomePage from "./pages/home/home";
 import AboutPage from "./pages/about/about";
 import MuiSandboxPage from "./pages/sandbox/mui/mui-sandbox";
@@ -40,6 +41,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <HashRouter basename="/">
         <Header />
+        <Banner />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/chart" component={HomePage} />

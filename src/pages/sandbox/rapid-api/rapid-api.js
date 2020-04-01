@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     display: "flex",
     flexFlow: "row wrap",
-    padding: 50,
+    padding: 20,
     background: "#fafafa",
     justifyContent: "center"
   },

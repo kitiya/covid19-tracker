@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import CountrySummary from "../../components/country-summary/country-summary";
 import ProvinceSummary from "../../components/province-summary/province-summary";
-import Banner from "../../components/banner/banner";
+import { canadianProvinceDB, canadianProvincialCodeDB } from "../../store";
 
 const useStyles = makeStyles(theme => {
   // const confirmed = theme.palette.cases.confirmed[400]; //pink
@@ -80,23 +80,6 @@ const HomePage = () => {
 
   // fetch province summary
   useEffect(() => {
-    const provinces = [
-      "Alberta",
-      "British Columbia",
-      // "Diamond Princess",
-      "Grand Princess",
-      "Manitoba",
-      "New Brunswick",
-      "Newfoundland and Labrador",
-      "Northwest Territories",
-      "Nova Scotia",
-      "Ontario",
-      "Prince Edward Island",
-      "Quebec",
-      "Saskatchewan",
-      "Yukon"
-    ];
-
     const fetchProvinceSummary = () => {
       axios
         .get("https://corona.lmao.ninja/v2/jhucsse")
@@ -105,7 +88,7 @@ const HomePage = () => {
           const data = response.data.filter(country => {
             return (
               country.country === "Canada" &&
-              provinces.includes(country.province)
+              canadianProvinceDB.includes(country.province)
             );
           });
 
@@ -117,6 +100,7 @@ const HomePage = () => {
               ...acc,
               {
                 province: item.province,
+                provincialCode: canadianProvincialCodeDB[item.province],
                 confirmed: item.stats.confirmed,
                 deaths: item.stats.deaths
               }
@@ -124,7 +108,7 @@ const HomePage = () => {
             return acc;
           }, []);
           setProvinceTableData(tableData);
-          // console.log("Table Data", tableData);
+          console.log("Table Data", tableData);
 
           // province chart data
           const chartData = data.reduce(
@@ -159,7 +143,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Banner />
       <CountrySummary
         countrySummary={countrySummary}
         countrySeries={countrySeries}

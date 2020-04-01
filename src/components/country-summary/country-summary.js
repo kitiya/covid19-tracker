@@ -10,7 +10,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MiniChart from "../../components/charts/minichart";
 
 const useStyles = makeStyles(theme => {
-  const confirmed = theme.palette.cases.confirmed[400]; //pink
+  const confirmed = theme.palette.cases.confirmed.A400; //pink
   const active = theme.palette.cases.active[500]; //blue
   const recovered = theme.palette.cases.recovered[500]; // teal
   const deceased = theme.palette.cases.deceased[500]; // blue grey

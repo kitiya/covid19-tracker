@@ -16,7 +16,6 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Bar,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -102,9 +101,9 @@ const ProvinceChart = ({ data }) => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
-          angle={-45}
+          angle={0}
           textAnchor="end"
-          dataKey="province"
+          dataKey="provincialCode"
           style={{ fontSize: 10 }}
         />
         <YAxis
@@ -157,12 +156,12 @@ const ProvinceChart = ({ data }) => {
   );
 };
 const ProvinceSummary = ({ tableData }) => {
-  console.log("TABLE DATA", tableData);
+  // console.log("TABLE DATA", tableData);
   const sortedData = tableData
     ? tableData.sort(compareValues("confirmed", "desc"))
     : [];
 
-  console.log("sorted", sortedData);
+  // console.log("sorted", sortedData);
   return (
     <>
       <Typography variant="h4" color="secondary">
