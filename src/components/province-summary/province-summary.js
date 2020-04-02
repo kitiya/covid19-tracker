@@ -83,7 +83,7 @@ const ProvinceTable = ({ data }) => {
 const ProvinceChart = ({ data }) => {
   return (
     <ResponsiveContainer
-      style={{ minWidth: "90%", minHeight: "100%" }}
+      style={{ width: "900px", height: "100%" }}
       // width="90%" height="100%"
     >
       <ComposedChart

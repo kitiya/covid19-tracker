@@ -26,7 +26,7 @@ const TriangleBar = props => {
 };
 
 const GlobalChart = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <ResponsiveContainer width="90%" height={500}>

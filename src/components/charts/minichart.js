@@ -55,7 +55,7 @@ const dataStore = [
 ];
 
 const MiniChart = ({ data = dataStore, stroke = "#8884d8" }) => {
-  // console.log(data);
+  console.log("minichart", data);
   return (
     <LineChart width={180} height={50} data={data}>
       <Line

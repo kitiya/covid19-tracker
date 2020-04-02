@@ -98,7 +98,7 @@ const CanadaPage = () => {
             return acc;
           }, []);
           setProvinceTableData(tableData);
-          console.log("Table Data", tableData);
+          // console.log("Table Data", tableData);
 
           // province chart data
           const chartData = data.reduce(
