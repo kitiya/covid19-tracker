@@ -10,6 +10,7 @@ import blueGrey from "@material-ui/core/colors/blueGrey";
 import Header from "./components/header/header";
 import Banner from "./components/banner/banner";
 import HomePage from "./pages/home/home";
+import CanadaPage from "./pages/canada/canada";
 import AboutPage from "./pages/about/about";
 import MuiSandboxPage from "./pages/sandbox/mui/mui-sandbox";
 import ReChartSandboxPage from "./pages/sandbox/rechart/rechart-sandbox";
@@ -27,6 +28,8 @@ const theme = createMuiTheme({
     secondary: { main: "#FF6584" },
     info: { main: "#f50057" },
     success: { main: "#2DC698" },
+    light: { main: "#ffffff" },
+    primaryText: { main: "#777777", dark: "#666666", light: "#dddddd" },
     cases: {
       confirmed: pink,
       active: blue,
@@ -44,6 +47,7 @@ function App() {
         <Banner />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/canada" component={CanadaPage} />
           <Route exact path="/chart" component={HomePage} />
           <Route exact path="/about" component={AboutPage} />
           <Route exact path="/mui-sandbox" component={MuiSandboxPage} />

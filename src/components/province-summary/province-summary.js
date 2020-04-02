@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react";
+import React /*PropTypes*/ from "react";
 
 import { compareValues } from "../../util/sort";
 
@@ -81,23 +81,14 @@ const ProvinceTable = ({ data }) => {
 };
 
 const ProvinceChart = ({ data }) => {
-  const colors = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-    "#d62728",
-    "#9467bd",
-    "#8c564b",
-    "#e377c2",
-    "#7f7f7f",
-    "#bcbd22",
-    "#17becf"
-  ];
   return (
-    <ResponsiveContainer width="90%" height={500}>
+    <ResponsiveContainer
+      style={{ minWidth: "90%", minHeight: "100%" }}
+      // width="90%" height="100%"
+    >
       <ComposedChart
         data={data}
-        margin={{ top: 30, right: 30, left: 30, bottom: 50 }}
+        margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
@@ -164,15 +155,38 @@ const ProvinceSummary = ({ tableData }) => {
   // console.log("sorted", sortedData);
   return (
     <>
-      <Typography variant="h4" color="secondary">
-        Province Summary
-      </Typography>
-      <Grid container>
-        <Grid item md={4}>
-          <ProvinceTable data={sortedData} />
+      <Grid
+        container
+        align="center"
+        spacing={5}
+        style={{ padding: "20px 50px" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h4" color="secondary">
+            Province Summary
+          </Typography>
         </Grid>
-        <Grid item md={8}>
-          <ProvinceChart data={sortedData} />
+        <Grid item lg={4} align="center">
+          <Paper>
+            <ProvinceTable data={sortedData} />
+          </Paper>
+        </Grid>
+        <Grid
+          item
+          lg={8}
+          align="center"
+          style={{ display: "flex", alignItems: "stretch" }}
+        >
+          <Paper
+            style={{
+              flex: "1 1 500px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <ProvinceChart data={sortedData} />
+          </Paper>
         </Grid>
       </Grid>
     </>

@@ -22,22 +22,26 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10
   },
   navlink: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "white"
   },
   activeNavLink: {
-    color: "#948DFF"
+    color: "#f58a97"
+  },
+  dropdownNavLink: {
+    textDecoration: "none",
+    color: "black"
   }
 }));
 
-const MenuText = ({ path, text, classes }) => {
+const MenuText = ({ path, text, classes, dropdown }) => {
   return (
     <Typography
       varient="h6"
-      color="secondary"
       component={NavLink}
       exact
       to={path}
-      className={classes.navlink}
+      className={dropdown ? classes.dropdownNavLink : classes.navlink}
       activeClassName={classes.activeNavLink}
     >
       {text}
@@ -83,6 +87,9 @@ const Header = () => {
             <MenuText path="/" text="Home" classes={classes}></MenuText>
           </Button>
           <Button>
+            <MenuText path="/canada" text="Canada" classes={classes}></MenuText>
+          </Button>
+          <Button>
             <MenuText path="/about" text="About" classes={classes}></MenuText>
           </Button>
           <Button
@@ -90,7 +97,7 @@ const Header = () => {
             aria-haspopup="true"
             onClick={handleSandboxClick}
           >
-            <Typography varient="h6" color="secondary">
+            <Typography varient="h6" className={classes.navlink}>
               Sandbox
             </Typography>
           </Button>
@@ -100,13 +107,13 @@ const Header = () => {
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleSandboxClose}
-            color="secondary"
           >
             <MenuItem onClose={handleSandboxClose}>
               <MenuText
                 path="/mui-sandbox"
                 text="Material UI"
                 classes={classes}
+                dropdown={true}
               ></MenuText>
             </MenuItem>
             <MenuItem onClose={handleSandboxClose}>
@@ -114,6 +121,7 @@ const Header = () => {
                 path="/rechart-sandbox"
                 text="Rechart"
                 classes={classes}
+                dropdown={true}
               ></MenuText>
             </MenuItem>
             <MenuItem onClose={handleSandboxClose}>
@@ -121,6 +129,7 @@ const Header = () => {
                 path="/rapid-api"
                 text="Rapid API"
                 classes={classes}
+                dropdown={true}
               ></MenuText>
             </MenuItem>
           </Menu>
