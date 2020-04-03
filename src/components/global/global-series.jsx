@@ -84,7 +84,7 @@ const GlobalSeries = () => {
       axios
         .get(`https://corona.lmao.ninja/v2/historical/all`)
         .then(response => {
-          console.log(response.data);
+          // console.log(response.data);
           const caseData = response.data;
 
           let confirmedCases = Object.entries(caseData.cases).map(item => {

@@ -4,6 +4,7 @@ import axios from "axios";
 import GlobalTable from "./global-table";
 import GlobalChart from "./global-charts";
 import GlobalSeries from "./global-series";
+import CountriesSeries from "./countries-series";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
@@ -68,7 +69,19 @@ const Global = () => {
         <Grid item xs={12} align="center" style={{ paddingTop: 30 }}>
           <Card>
             <CardHeader
-              title="Confirmed Cases by Country"
+              title="Comparing the coronavirus curve"
+              style={{ background: "#fafafa" }}
+              align="left"
+            ></CardHeader>
+            <CardContent>
+              <CountriesSeries />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} align="center" style={{ paddingTop: 30 }}>
+          <Card>
+            <CardHeader
+              title="Cumulative Confirmed Cases by Country"
               style={{ background: "#fafafa" }}
               align="left"
             ></CardHeader>
@@ -80,7 +93,7 @@ const Global = () => {
         <Grid item xs={12} align="center" style={{ paddingTop: 30 }}>
           <Card>
             <CardHeader
-              title="Confirmed Cases by Country"
+              title="Cases by Country"
               style={{ background: "#fafafa" }}
               align="left"
             ></CardHeader>
