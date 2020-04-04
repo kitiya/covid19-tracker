@@ -46,7 +46,7 @@ const GlobalSeriesChart = ({ data }) => {
             dataKey="cases"
             stroke="#8884d8"
             strokeWidth={3}
-            activeDot={{ r: 3 }}
+            dot={false}
           />
         </LineChart>
       </Grid>
@@ -69,7 +69,7 @@ const GlobalSeriesChart = ({ data }) => {
             dataKey="cases"
             stroke="#8884d8"
             strokeWidth={3}
-            activeDot={{ r: 3 }}
+            dot={false}
           />
         </LineChart>
       </Grid>

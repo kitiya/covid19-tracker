@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import moment from "moment";
-
-import { top20Countries } from "../../store";
 
 import { Grid } from "@material-ui/core";
 import {
@@ -16,8 +13,8 @@ import {
   Label
 } from "recharts";
 
-const SeriesChart = ({ data }) => {
-  console.log("data", data);
+const SeriesChart = ({ confirmCases }) => {
+  console.log("confirmCases", confirmCases);
 
   function formatXAxis(tickItem) {
     return tickItem;
@@ -30,7 +27,7 @@ const SeriesChart = ({ data }) => {
   return (
     <Grid container>
       <Grid item lg>
-        <LineChart width={1200} height={600} data={data.slice(0, 40)}>
+        <LineChart width={1200} height={600} data={confirmCases.slice(0, 40)}>
           <XAxis dataKey="day" tickFormatter={formatXAxis} fontSize={12}>
             <Label
               value="Days since 100th case"
@@ -105,12 +102,20 @@ const SeriesChart = ({ data }) => {
             strokeWidth={3}
             dot={false}
           />
+          <Line
+            name="Thailand"
+            type="monotone"
+            dataKey="thailand"
+            stroke="#00CED1"
+            strokeWidth={3}
+            dot={false}
+          />
         </LineChart>
       </Grid>
     </Grid>
   );
 };
-const CountriesSeries = () => {
+const CovidCurves = () => {
   const [globalSeries, setGlobalSeries] = useState([]);
 
   // fetch global series
@@ -122,6 +127,7 @@ const CountriesSeries = () => {
     const spainRequest = axios.get(`${path}/spain`);
     const germanyRequest = axios.get(`${path}/germany`);
     const chinaRequest = axios.get(`${path}/china`);
+    const thailandRequest = axios.get(`${path}/thailand`);
     const singaporeRequest = axios.get(`${path}/singapore`);
 
     const fetchCountriesSeries = () => {
@@ -133,6 +139,7 @@ const CountriesSeries = () => {
           spainRequest,
           germanyRequest,
           chinaRequest,
+          thailandRequest,
           singaporeRequest
         ])
         .then(
@@ -143,7 +150,8 @@ const CountriesSeries = () => {
             const spainResponse = responses[3].data;
             const germanyResponse = responses[4].data;
             const chinaResponse = responses[5].data;
-            const singaporeResponse = responses[6].data;
+            const thailandResponse = responses[6].data;
+            const singaporeResponse = responses[7].data;
 
             const canadaCases100 = Object.entries(
               canadaResponse.timeline.cases
@@ -154,8 +162,8 @@ const CountriesSeries = () => {
             const canadaCases100Formatted = canadaCases100.map(
               (item, index) => {
                 return {
-                  country: "canada",
-                  date: item[0],
+                  // country: "canada",
+                  // date: item[0],
                   day: index + 1,
                   canada: item[1]
                 };
@@ -170,8 +178,6 @@ const CountriesSeries = () => {
 
             const usaCases100Formatted = usaCases100.map((item, index) => {
               return {
-                country: "usa",
-                date: item[0],
                 day: index + 1,
                 usa: item[1]
               };
@@ -185,8 +191,6 @@ const CountriesSeries = () => {
 
             const italyCases100Formatted = italyCases100.map((item, index) => {
               return {
-                country: "italy",
-                date: item[0],
                 day: index + 1,
                 italy: item[1]
               };
@@ -200,8 +204,6 @@ const CountriesSeries = () => {
 
             const spainCases100Formatted = spainCases100.map((item, index) => {
               return {
-                country: "spain",
-                date: item[0],
                 day: index + 1,
                 spain: item[1]
               };
@@ -216,8 +218,6 @@ const CountriesSeries = () => {
             const germanyCases100Formatted = germanyCases100.map(
               (item, index) => {
                 return {
-                  country: "germany",
-                  date: item[0],
                   day: index + 1,
                   germany: item[1]
                 };
@@ -232,12 +232,25 @@ const CountriesSeries = () => {
 
             const chinaCases100Formatted = chinaCases100.map((item, index) => {
               return {
-                country: "china",
-                date: item[0],
                 day: index + 1,
                 china: item[1]
               };
             });
+
+            const thailandCases100 = Object.entries(
+              thailandResponse.timeline.cases
+            ).filter(item => {
+              return item[1] >= 100;
+            }, []);
+
+            const thailandCases100Formatted = thailandCases100.map(
+              (item, index) => {
+                return {
+                  day: index + 1,
+                  thailand: item[1]
+                };
+              }
+            );
 
             const singaporeCases100 = Object.entries(
               singaporeResponse.timeline.cases
@@ -248,8 +261,6 @@ const CountriesSeries = () => {
             const singaporeCases100Formatted = singaporeCases100.map(
               (item, index) => {
                 return {
-                  country: "singapore",
-                  date: item[0],
                   day: index + 1,
                   singapore: item[1]
                 };
@@ -263,10 +274,11 @@ const CountriesSeries = () => {
               ...spainCases100Formatted,
               ...germanyCases100Formatted,
               ...chinaCases100Formatted,
+              ...thailandCases100Formatted,
               ...singaporeCases100Formatted
             ];
 
-            console.log("total cases", totalCases);
+            // console.log("total cases", totalCases);
             const mergedCases = totalCases.reduce((acc, item) => {
               if (!acc[item.day]) {
                 acc[item.day] = { ...item };
@@ -294,9 +306,9 @@ const CountriesSeries = () => {
 
   return (
     <>
-      <SeriesChart data={globalSeries} />
+      <SeriesChart confirmCases={globalSeries} />
     </>
   );
 };
 
-export default CountriesSeries;
+export default CovidCurves;

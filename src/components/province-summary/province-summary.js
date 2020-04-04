@@ -166,8 +166,13 @@ const ProvinceSummary = ({ tableData }) => {
             Province Summary
           </Typography>
         </Grid>
-        <Grid item lg={4} align="center">
-          <Paper>
+        <Grid
+          item
+          lg={4}
+          align="center"
+          style={{ marginLeft: "auto", marginRight: "auto" }}
+        >
+          <Paper align="center">
             <ProvinceTable data={sortedData} />
           </Paper>
         </Grid>

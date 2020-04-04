@@ -4,7 +4,7 @@ import axios from "axios";
 import GlobalTable from "./global-table";
 import GlobalChart from "./global-charts";
 import GlobalSeries from "./global-series";
-import CountriesSeries from "./countries-series";
+import CovidCurves from "./covid-curves";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
@@ -44,7 +44,7 @@ const Global = () => {
     const fetchCountrySummary = () => {
       axios
         .get("https://corona.lmao.ninja/countries?sort=cases")
-        .then(response => setGlobal(response.data.slice(0, 20)));
+        .then(response => setGlobal(response.data));
     };
 
     fetchCountrySummary();
@@ -74,7 +74,7 @@ const Global = () => {
               align="left"
             ></CardHeader>
             <CardContent>
-              <CountriesSeries />
+              <CovidCurves />
             </CardContent>
           </Card>
         </Grid>
@@ -86,7 +86,7 @@ const Global = () => {
               align="left"
             ></CardHeader>
             <CardContent>
-              <GlobalChart data={global} />
+              <GlobalChart data={global.slice(1, 20)} />
             </CardContent>
           </Card>
         </Grid>
