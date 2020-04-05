@@ -1,4 +1,4 @@
-import React /*PropTypes*/ from "react";
+import React from "react";
 
 import { compareValues } from "../../util/sort";
 
@@ -21,31 +21,25 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Cell
+  Cell,
 } from "recharts";
 
 const getPath = (x, y, width, height) => {
   return `M${x},${y + height}
-          C${x + width / 3},${y + height} ${x + width / 2},${y +
-    height / 3} ${x + width / 2}, ${y}
-          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y +
-    height} ${x + width}, ${y + height}
+          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${
+    x + width / 2
+  }, ${y}
+          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${
+    y + height
+  } ${x + width}, ${y + height}
           Z`;
 };
 
-const TriangleBar = props => {
+const TriangleBar = (props) => {
   const { fill, x, y, width, height } = props;
 
   return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
 };
-
-// TriangleBar.propTypes = {
-//   fill: PropTypes.string,
-//   x: PropTypes.number,
-//   y: PropTypes.number,
-//   width: PropTypes.number,
-//   height: PropTypes.number
-// };
 
 const ProvinceTable = ({ data }) => {
   return (
@@ -82,10 +76,7 @@ const ProvinceTable = ({ data }) => {
 
 const ProvinceChart = ({ data }) => {
   return (
-    <ResponsiveContainer
-      style={{ width: "900px", height: "100%" }}
-      // width="90%" height="100%"
-    >
+    <ResponsiveContainer width="100%" height={500}>
       <ComposedChart
         data={data}
         margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
@@ -104,7 +95,7 @@ const ProvinceChart = ({ data }) => {
             value: "Confirmed Cases",
             angle: -90,
             position: "insideLeft",
-            offset: 0
+            offset: 0,
           }}
         />
         <YAxis
@@ -115,7 +106,7 @@ const ProvinceChart = ({ data }) => {
             value: "Deaths",
             angle: 90,
             position: "insideRight",
-            offset: 0
+            offset: 0,
           }}
         />
         <Tooltip />
@@ -146,7 +137,7 @@ const ProvinceChart = ({ data }) => {
     </ResponsiveContainer>
   );
 };
-const ProvinceSummary = ({ tableData }) => {
+const ProvinceSummary = ({ tableData, themes }) => {
   // console.log("TABLE DATA", tableData);
   const sortedData = tableData
     ? tableData.sort(compareValues("confirmed", "desc"))
@@ -162,8 +153,8 @@ const ProvinceSummary = ({ tableData }) => {
         style={{ padding: "20px 50px" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h4" color="secondary">
-            Province Summary
+          <Typography variant="h4" align="left">
+            Confirmed COVID-19 cases in Canada by province and territory
           </Typography>
         </Grid>
         <Grid
@@ -184,10 +175,10 @@ const ProvinceSummary = ({ tableData }) => {
         >
           <Paper
             style={{
-              flex: "1 1 500px",
+              flex: "1 1 600px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "center",
             }}
           >
             <ProvinceChart data={sortedData} />

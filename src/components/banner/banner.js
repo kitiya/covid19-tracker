@@ -4,14 +4,13 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
 import { bannerDB } from "../../store";
-const useStyles = makeStyles(theme => {
+const useStyles = makeStyles((theme) => {
   return {
     container: {
-      background: theme.palette.cases.active[100],
+      background: "#bbdefb",
       textAlign: "center",
       padding: 10,
-      color: theme.palette.cases.deceased[800]
-    }
+    },
   };
 });
 

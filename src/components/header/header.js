@@ -8,31 +8,33 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const useStyles = makeStyles(theme => ({
-  toolbar: {
-    justifyContent: "space-between"
-  },
-  logoWrapper: {
-    display: "flex",
-    alignItems: "center",
-    color: "white"
-  },
-  logo: {
-    height: 50,
-    marginRight: 10
-  },
-  navlink: {
-    textDecoration: "none",
-    color: "white"
-  },
-  activeNavLink: {
-    color: "#f58a97"
-  },
-  dropdownNavLink: {
-    textDecoration: "none",
-    color: "black"
-  }
-}));
+const useStyles = makeStyles(theme => {
+  return {
+    toolbar: {
+      justifyContent: "space-between"
+    },
+    logoWrapper: {
+      display: "flex",
+      alignItems: "center",
+      color: "white"
+    },
+    logo: {
+      height: 50,
+      marginRight: 10
+    },
+    navlink: {
+      textDecoration: "none",
+      color: "white"
+    },
+    activeNavLink: {
+      color: theme.palette.text.activeNavLink
+    },
+    dropdownNavLink: {
+      textDecoration: "none",
+      color: "black"
+    }
+  };
+});
 
 const MenuText = ({ path, text, classes, dropdown }) => {
   return (

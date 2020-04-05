@@ -6,11 +6,39 @@ import {
   Table,
   TableHead,
   TableBody,
-  TableRow
+  TableRow,
 } from "@material-ui/core";
 import { numberFormat } from "../../util/formatter";
+import { makeStyles } from "@material-ui/core/styles";
 
-const GlobalTable = ({ global, classes }) => {
+const useStyles = makeStyles((theme) => {
+  return {
+    flagIcon: {
+      maxWidth: 30,
+      marginRight: 10,
+    },
+    table: {
+      "& th": {
+        textAlign: "center",
+        // background: "#1e2023",
+        // color: "white",
+        fontSize: 16,
+      },
+      "& td": {
+        textAlign: "center",
+        // color: theme.palette.primaryText.main,
+      },
+    },
+    imgWrapperCell: {
+      display: "flex",
+      alignItems: "center",
+    },
+  };
+});
+
+const GlobalTable = ({ global }) => {
+  const classes = useStyles();
+
   return (
     <TableContainer component={Paper}>
       <Table size="medium" className={classes.table}>

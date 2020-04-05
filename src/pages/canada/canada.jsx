@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useTheme } from "@material-ui/core/styles";
 
 import CountrySummary from "../../components/country-summary/country-summary";
 import ProvinceSummary from "../../components/province-summary/province-summary";
@@ -9,24 +10,23 @@ const CanadaPage = () => {
   const [countrySummary, setCountrySummary] = useState([]);
   const [countrySeries, setCountrySeries] = useState([]);
   const [provinceTableData, setProvinceTableData] = useState([]);
-  const [provinceChartData, setProvinceChartData] = useState([]);
-  // const classes = useStyles();
-  // const theme = useTheme();
+
+  const theme = useTheme();
 
   // fetch country summary
   useEffect(() => {
     function fetchCountrySummary() {
       axios
         .get("https://corona.lmao.ninja/countries/")
-        .then(response => {
+        .then((response) => {
           const countries = response.data;
-          const countryData = countries.filter(country => {
+          const countryData = countries.filter((country) => {
             return country.country === "Canada";
           });
 
           setCountrySummary(countryData[0]);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("[Fetch country summary]", err);
         });
     }
@@ -38,29 +38,31 @@ const CanadaPage = () => {
     const fetchCountrySeries = () => {
       axios
         .get(`https://corona.lmao.ninja/v2/historical/canada/`)
-        .then(response => {
+        .then((response) => {
           const caseData = response.data.timeline;
 
-          let confirmedCases = Object.entries(caseData.cases).map(item => {
+          let confirmedCases = Object.entries(caseData.cases).map((item) => {
             return { date: item[0], cases: item[1] };
           });
 
-          let recoveredCases = Object.entries(caseData.recovered).map(item => {
-            return { date: item[0], cases: item[1] };
-          });
+          let recoveredCases = Object.entries(caseData.recovered).map(
+            (item) => {
+              return { date: item[0], cases: item[1] };
+            }
+          );
 
-          let deathCases = Object.entries(caseData.deaths).map(item => {
+          let deathCases = Object.entries(caseData.deaths).map((item) => {
             return { date: item[0], cases: item[1] };
           });
 
           const cases = {
             confirmed: confirmedCases,
             recovered: recoveredCases,
-            deaths: deathCases
+            deaths: deathCases,
           };
           setCountrySeries(cases);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("[Fetch country series]", err);
         });
     };
@@ -73,9 +75,9 @@ const CanadaPage = () => {
     const fetchProvinceSummary = () => {
       axios
         .get("https://corona.lmao.ninja/v2/jhucsse")
-        .then(response => {
+        .then((response) => {
           // console.log("DATA", response.data);
-          const data = response.data.filter(country => {
+          const data = response.data.filter((country) => {
             return (
               country.country === "Canada" &&
               canadianProvinceDB.includes(country.province)
@@ -92,8 +94,8 @@ const CanadaPage = () => {
                 province: item.province,
                 provincialCode: canadianProvincialCodeDB[item.province],
                 confirmed: item.stats.confirmed,
-                deaths: item.stats.deaths
-              }
+                deaths: item.stats.deaths,
+              },
             ];
             return acc;
           }, []);
@@ -105,15 +107,15 @@ const CanadaPage = () => {
             (acc, item) => {
               acc.confirmed = [
                 ...acc.confirmed,
-                { province: item.province, cases: item.stats.confirmed }
+                { province: item.province, cases: item.stats.confirmed },
               ];
               acc.recovered = [
                 ...acc.recovered,
-                { province: item.province, cases: item.stats.recovered }
+                { province: item.province, cases: item.stats.recovered },
               ];
               acc.deaths = [
                 ...acc.deaths,
-                { province: item.province, cases: item.stats.deaths }
+                { province: item.province, cases: item.stats.deaths },
               ];
               return acc;
             },
@@ -121,9 +123,9 @@ const CanadaPage = () => {
           );
 
           // console.log("chart data", chartData);
-          setProvinceChartData(chartData);
+          // setProvinceChartData(chartData);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("[Fetch province]", err);
         });
     };
@@ -136,11 +138,9 @@ const CanadaPage = () => {
       <CountrySummary
         countrySummary={countrySummary}
         countrySeries={countrySeries}
+        theme={theme}
       />
-      <ProvinceSummary
-        tableData={provinceTableData}
-        chartData={provinceChartData}
-      />
+      <ProvinceSummary tableData={provinceTableData} theme={theme} />
     </>
   );
 };

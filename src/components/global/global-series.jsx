@@ -10,74 +10,49 @@ import {
   Tooltip,
   LineChart,
   Line,
-  Legend
+  Legend,
+  ResponsiveContainer
 } from "recharts";
 
-const GlobalSeriesChart = ({ data }) => {
-  // console.log(confirmed);
+function formatXAxis(tickItem) {
+  return moment(new Date(tickItem)).format("MMM D");
+}
 
-  function formatXAxis(tickItem) {
-    // If using moment.js
-    return moment(new Date(tickItem)).format("MMM D");
-  }
+function formatTooltip(tickItem) {
+  return moment(new Date(tickItem)).format("MMM D, YYYY");
+}
 
-  function formatTooltip(tickItem) {
-    // If using moment.js
-    return moment(new Date(tickItem)).format("MMM D, YYYY");
-  }
+const TimeSeriesChart = ({ data, graphName, width = 400 }) => {
   return (
-    <Grid container>
-      <Grid item lg>
-        <LineChart width={800} height={400} data={data.confirmed}>
-          <XAxis dataKey="date" tickFormatter={formatXAxis} fontSize={12} />
-          <YAxis
-            fontSize={12}
-            tickFormatter={value => new Intl.NumberFormat("en").format(value)}
-          />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip
-            formatter={value => new Intl.NumberFormat("en").format(value)}
-            labelFormatter={formatTooltip}
-          />
-          <Legend />
-          <Line
-            name="Total Confirmed Cases"
-            type="monotone"
-            dataKey="cases"
-            stroke="#8884d8"
-            strokeWidth={3}
-            dot={false}
-          />
-        </LineChart>
-      </Grid>
-      <Grid item lg>
-        <LineChart width={800} height={400} data={data.deaths}>
-          <XAxis dataKey="date" tickFormatter={formatXAxis} fontSize={12} />
-          <YAxis
-            fontSize={12}
-            tickFormatter={value => new Intl.NumberFormat("en").format(value)}
-          />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip
-            formatter={value => new Intl.NumberFormat("en").format(value)}
-            labelFormatter={formatTooltip}
-          />
-          <Legend />
-          <Line
-            name="Total Deaths"
-            type="monotone"
-            dataKey="cases"
-            stroke="#8884d8"
-            strokeWidth={3}
-            dot={false}
-          />
-        </LineChart>
-      </Grid>
-    </Grid>
+    <ResponsiveContainer width={width} height={300}>
+      <LineChart data={data}>
+        <XAxis dataKey="date" tickFormatter={formatXAxis} fontSize={12} />
+        <YAxis
+          fontSize={12}
+          tickFormatter={value => new Intl.NumberFormat("en").format(value)}
+        />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip
+          formatter={value => new Intl.NumberFormat("en").format(value)}
+          labelFormatter={formatTooltip}
+        />
+        <Legend />
+        <Line
+          name={graphName}
+          type="monotone"
+          dataKey="cases"
+          stroke="#8884d8"
+          strokeWidth={3}
+          dot={false}
+        />
+      </LineChart>
+    </ResponsiveContainer>
   );
 };
+
 const GlobalSeries = () => {
   const [globalSeries, setGlobalSeries] = useState([]);
+
   // fetch global series
   useEffect(() => {
     const fetchGlobalSeries = () => {
@@ -115,13 +90,29 @@ const GlobalSeries = () => {
   }, []);
 
   return (
-    <>
-      <GlobalSeriesChart
-        data={globalSeries}
-        confirmed={globalSeries.confirmed}
-        deaths={globalSeries.deaths}
-      />
-    </>
+    <Grid container>
+      <Grid item lg={4}>
+        <TimeSeriesChart
+          data={globalSeries.confirmed}
+          graphName="Total Confirmed Cases"
+          width="100%"
+        />
+      </Grid>
+      <Grid item lg={4}>
+        <TimeSeriesChart
+          data={globalSeries.recovered}
+          graphName="Total Recovered"
+          width="100%"
+        />
+      </Grid>
+      <Grid item lg={4}>
+        <TimeSeriesChart
+          data={globalSeries.deaths}
+          graphName="Total Deaths"
+          width="100%"
+        />
+      </Grid>
+    </Grid>
   );
 };
 

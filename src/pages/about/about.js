@@ -3,11 +3,13 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import Banner from "../../components/banner/banner";
 
 const AboutPage = () => {
   const urlPath = process.env.PUBLIC_URL;
   return (
     <>
+      <Banner />
       <Grid container style={{ textAlign: "center" }}>
         <Grid item xs>
           <Typography
