@@ -86,7 +86,7 @@ const SummaryCard = ({
 const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
   return (
     <Grid container spacing={1}>
-      <Grid item sm={4}>
+      <Grid item xs={4}>
         <SummaryCard
           todayCases={`[+${countrySummary.todayCases}]`}
           totalCases={countrySummary.cases}
@@ -98,7 +98,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
         />
       </Grid>
 
-      <Grid item sm={4}>
+      <Grid item xs={4}>
         <SummaryCard
           todayCases={"[NA]"}
           totalCases={countrySummary.recovered}
@@ -109,7 +109,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
           stroke={theme.palette.cases.recovered}
         />
       </Grid>
-      <Grid item sm={4}>
+      <Grid item xs={4}>
         <SummaryCard
           todayCases={`[+${countrySummary.todayDeaths}]`}
           totalCases={countrySummary.deaths}

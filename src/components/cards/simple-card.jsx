@@ -2,16 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => {
+const useStyles = makeStyles((theme) => {
   return {
     cardHeader: {
-      background: theme.palette.background.card
+      background: theme.palette.background.card,
     },
     cardContent: {
       "& > div": {
-        justifyContent: "center"
-      }
-    }
+        justifyContent: "center",
+      },
+    },
   };
 });
 

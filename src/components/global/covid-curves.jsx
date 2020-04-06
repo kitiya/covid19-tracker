@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 
 import {
   ResponsiveContainer,
@@ -17,24 +18,22 @@ const SeriesChart = ({ confirmCases }) => {
   console.log("confirmCases", confirmCases);
 
   function formatXAxis(tickItem) {
-    return tickItem;
+    return moment(new Date(tickItem)).format("MMM D");
   }
 
   function formatTooltip(tickItem) {
-    // If using moment.js
-    return "Day " + tickItem;
+    return moment(new Date(tickItem)).format("MMM D, YYYY");
   }
+
   return (
-    <ResponsiveContainer width="90%" height={300}>
-      <LineChart data={confirmCases.slice(0, 50)}>
-        <XAxis dataKey="day" tickFormatter={formatXAxis} fontSize={12}>
-          <Label
-            value="Days since 100th case"
-            offset={0}
-            position="insideBottom"
-          />
-        </XAxis>
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart
+        data={confirmCases}
+        margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
+      >
+        <XAxis dataKey="date" tickFormatter={formatXAxis} fontSize={12}></XAxis>
         <YAxis
+          fontSize={12}
           tickFormatter={(value) => new Intl.NumberFormat("en").format(value)}
         />
         <CartesianGrid strokeDasharray="3 3" />
@@ -59,20 +58,19 @@ const SeriesChart = ({ confirmCases }) => {
           strokeWidth={3}
           dot={false}
         />
-
-        <Line
-          name="Italy"
-          type="monotone"
-          dataKey="italy"
-          stroke="#008C45"
-          strokeWidth={3}
-          dot={false}
-        />
         <Line
           name="Spain"
           type="monotone"
           dataKey="spain"
           stroke="#F1BF00"
+          strokeWidth={3}
+          dot={false}
+        />
+        <Line
+          name="Italy"
+          type="monotone"
+          dataKey="italy"
+          stroke="#008C45"
           strokeWidth={3}
           dot={false}
         />
@@ -93,18 +91,10 @@ const SeriesChart = ({ confirmCases }) => {
           dot={false}
         />
         <Line
-          name="Singapore"
+          name="iran"
           type="monotone"
-          dataKey="singapore"
+          dataKey="iran"
           stroke="#456990"
-          strokeWidth={3}
-          dot={false}
-        />
-        <Line
-          name="Thailand"
-          type="monotone"
-          dataKey="thailand"
-          stroke="#00CED1"
           strokeWidth={3}
           dot={false}
         />
@@ -124,164 +114,121 @@ const CovidCurves = () => {
     const spainRequest = axios.get(`${path}/spain`);
     const germanyRequest = axios.get(`${path}/germany`);
     const chinaRequest = axios.get(`${path}/china`);
-    const thailandRequest = axios.get(`${path}/thailand`);
-    const singaporeRequest = axios.get(`${path}/singapore`);
+    const franceRequest = axios.get(`${path}/france`);
+    const iranRequest = axios.get(`${path}/iran`);
 
     const fetchCountriesSeries = () => {
       axios
         .all([
           canadaRequest,
           usaRequest,
-          italyRequest,
           spainRequest,
+          italyRequest,
           germanyRequest,
+          franceRequest,
           chinaRequest,
-          thailandRequest,
-          singaporeRequest,
+          iranRequest,
         ])
         .then(
           axios.spread((...responses) => {
             const canadaResponse = responses[0].data;
             const usaResponse = responses[1].data;
-            const italyResponse = responses[2].data;
             const spainResponse = responses[3].data;
+            const italyResponse = responses[2].data;
             const germanyResponse = responses[4].data;
+            const franceResponse = responses[6].data;
             const chinaResponse = responses[5].data;
-            const thailandResponse = responses[6].data;
-            const singaporeResponse = responses[7].data;
+            const iranResponse = responses[7].data;
 
-            const canadaCases100 = Object.entries(
+            const canadaCases = Object.entries(
               canadaResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
+            ).map((item) => {
+              return {
+                date: item[0],
+                canada: item[1],
+              };
+            });
 
-            const canadaCases100Formatted = canadaCases100.map(
-              (item, index) => {
+            const usaCases = Object.entries(usaResponse.timeline.cases).map(
+              (item) => {
                 return {
-                  // country: "canada",
-                  // date: item[0],
-                  day: index + 1,
-                  canada: item[1],
+                  date: item[0],
+                  usa: item[1],
                 };
               }
             );
 
-            const usaCases100 = Object.entries(
-              usaResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
+            const spainCases = Object.entries(spainResponse.timeline.cases).map(
+              (item) => {
+                return {
+                  date: item[0],
+                  spain: item[1],
+                };
+              }
+            );
 
-            const usaCases100Formatted = usaCases100.map((item, index) => {
-              return {
-                day: index + 1,
-                usa: item[1],
-              };
-            });
+            const italyCases = Object.entries(italyResponse.timeline.cases).map(
+              (item) => {
+                return {
+                  date: item[0],
+                  italy: item[1],
+                };
+              }
+            );
 
-            const italyCases100 = Object.entries(
-              italyResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
-
-            const italyCases100Formatted = italyCases100.map((item, index) => {
-              return {
-                day: index + 1,
-                italy: item[1],
-              };
-            });
-
-            const spainCases100 = Object.entries(
-              spainResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
-
-            const spainCases100Formatted = spainCases100.map((item, index) => {
-              return {
-                day: index + 1,
-                spain: item[1],
-              };
-            });
-
-            const germanyCases100 = Object.entries(
+            const germanyCases = Object.entries(
               germanyResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
-
-            const germanyCases100Formatted = germanyCases100.map(
-              (item, index) => {
-                return {
-                  day: index + 1,
-                  germany: item[1],
-                };
-              }
-            );
-
-            const chinaCases100 = Object.entries(
-              chinaResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
-
-            const chinaCases100Formatted = chinaCases100.map((item, index) => {
+            ).map((item) => {
               return {
-                day: index + 1,
-                china: item[1],
+                date: item[0],
+                germany: item[1],
               };
             });
 
-            console.log("china", chinaResponse);
-            const thailandCases100 = Object.entries(
-              thailandResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
+            const franceCases = Object.entries(
+              franceResponse.timeline.cases
+            ).map((item) => {
+              return {
+                date: item[0],
+                france: item[1],
+              };
+            });
 
-            const thailandCases100Formatted = thailandCases100.map(
-              (item, index) => {
+            const chinaCases = Object.entries(chinaResponse.timeline.cases).map(
+              (item) => {
                 return {
-                  day: index + 1,
-                  thailand: item[1],
+                  date: item[0],
+                  china: item[1],
                 };
               }
             );
 
-            const singaporeCases100 = Object.entries(
-              singaporeResponse.timeline.cases
-            ).filter((item) => {
-              return item[1] >= 100;
-            }, []);
-
-            const singaporeCases100Formatted = singaporeCases100.map(
-              (item, index) => {
+            const iranCases = Object.entries(iranResponse.timeline.cases).map(
+              (item) => {
                 return {
-                  day: index + 1,
-                  singapore: item[1],
+                  date: item[0],
+                  iran: item[1],
                 };
               }
             );
 
             const totalCases = [
-              ...canadaCases100Formatted,
-              ...usaCases100Formatted,
-              ...italyCases100Formatted,
-              ...spainCases100Formatted,
-              ...germanyCases100Formatted,
-              ...chinaCases100Formatted,
-              ...thailandCases100Formatted,
-              ...singaporeCases100Formatted,
+              ...canadaCases,
+              ...usaCases,
+              ...spainCases,
+              ...italyCases,
+              ...germanyCases,
+              ...franceCases,
+              ...chinaCases,
+              ...iranCases,
             ];
 
             console.log("total cases", totalCases);
             const mergedCases = totalCases.reduce((acc, item) => {
-              if (!acc[item.day]) {
-                acc[item.day] = { ...item };
+              if (!acc[item.date]) {
+                acc[item.date] = { ...item };
               } else {
-                acc[item.day] = { ...acc[item.day], ...item };
+                acc[item.date] = { ...acc[item.date], ...item };
               }
               return acc;
             }, {});

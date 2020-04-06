@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => {
     table: {
       "& th": {
         textAlign: "center",
-        // background: "#1e2023",
-        // color: "white",
+        background: theme.palette.background.tableHeader,
+        color: "white",
         fontSize: 16,
       },
       "& td": {

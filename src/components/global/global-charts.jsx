@@ -30,15 +30,15 @@ const TriangleBar = (props) => {
 const GlobalChart = ({ data }) => {
   // console.log(data);
   return (
-    <ResponsiveContainer width="90%" height={300}>
+    <ResponsiveContainer width="100%" height={300}>
       <ComposedChart
         data={data}
-        margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
+        margin={{ top: 30, right: 20, left: 10, bottom: 0 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="country" style={{ fontSize: 12 }} />
         <YAxis
-          // fontSize={14}
+          fontSize={12}
           tickFormatter={(value) => new Intl.NumberFormat("en").format(value)}
         />
         <Tooltip
