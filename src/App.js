@@ -58,7 +58,7 @@ let theme = createMuiTheme({
     },
     cases: {
       confirmed: "#EC407A",
-      active: "#2196f3",
+      active: "#1d87da",
       recovered: "#009688",
       deaths: "#607d8b",
     },

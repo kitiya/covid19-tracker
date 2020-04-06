@@ -40,7 +40,7 @@ const Global = () => {
     <>
       <Grid container className={classes.gridContainer}>
         <Grid item xs={12} align="center" className={classes.gridItem}>
-          <GlobalSummary />
+          <GlobalSummary theme={theme} />
         </Grid>
         <Grid item xs={12} align="center" className={classes.gridItem}>
           <SimpleCard title="Global Cumulative Cases">
