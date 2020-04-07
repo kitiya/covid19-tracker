@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => {
       },
       "& td": {
         textAlign: "center",
-        // color: theme.palette.primaryText.main,
       },
     },
     imgWrapperCell: {
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const GlobalTable = ({ global }) => {
+const CountriesTable = ({ global }) => {
   const classes = useStyles();
 
   return (
@@ -90,4 +89,4 @@ const GlobalTable = ({ global }) => {
   );
 };
 
-export default GlobalTable;
+export default CountriesTable;

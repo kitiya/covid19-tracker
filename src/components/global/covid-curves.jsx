@@ -11,11 +11,10 @@ import {
   LineChart,
   Line,
   Legend,
-  Label,
 } from "recharts";
 
 const SeriesChart = ({ confirmCases }) => {
-  console.log("confirmCases", confirmCases);
+  // console.log("confirmCases", confirmCases);
 
   function formatXAxis(tickItem) {
     return moment(new Date(tickItem)).format("MMM D");
@@ -223,7 +222,7 @@ const CovidCurves = () => {
               ...iranCases,
             ];
 
-            console.log("total cases", totalCases);
+            // console.log("total cases", totalCases);
             const mergedCases = totalCases.reduce((acc, item) => {
               if (!acc[item.date]) {
                 acc[item.date] = { ...item };

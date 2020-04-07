@@ -168,7 +168,7 @@ const GlobalSummary = ({ theme }) => {
 
   return (
     <Grid container className={classes.gridContainer} spacing={3}>
-      <Grid item md={4}>
+      <Grid item lg={4}>
         <SummaryCards globalSummary={globalSummary} classes={classes} />
         <Box>
           <Typography variant="subtitle1" align="right">
@@ -176,7 +176,7 @@ const GlobalSummary = ({ theme }) => {
           </Typography>
         </Box>
       </Grid>
-      <Grid item md={8} align="left">
+      <Grid item lg={8} align="left">
         <Message />
       </Grid>
     </Grid>

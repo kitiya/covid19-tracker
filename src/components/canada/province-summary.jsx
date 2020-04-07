@@ -1,7 +1,10 @@
 import React from "react";
 
+import TriangleBar from "../charts/shapes/triangle-bar";
 import { compareValues } from "../../util/sort";
+import { numberFormat } from "../../util/formatter";
 
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -21,30 +24,43 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  // LabelList,
   Cell,
 } from "recharts";
 
-const getPath = (x, y, width, height) => {
-  return `M${x},${y + height}
-          C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3} ${
-    x + width / 2
-  }, ${y}
-          C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${
-    y + height
-  } ${x + width}, ${y + height}
-          Z`;
-};
+const useStyles = makeStyles((theme) => {
+  return {
+    gridContainer: {
+      padding: 25,
+      justifyContent: "center",
+    },
+    gridItem: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "stretch",
+    },
+    table: {
+      "& th": {
+        textAlign: "center",
+        background: theme.palette.background.tableHeader,
+        color: "white",
+        fontSize: 16,
+      },
+      "& td": {
+        textAlign: "center",
+      },
+    },
+    chartWrapper: {
+      width: "100%",
+    },
+  };
+});
 
-const TriangleBar = (props) => {
-  const { fill, x, y, width, height } = props;
-
-  return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
-};
-
-const ProvinceTable = ({ data }) => {
+const ProvinceTable = ({ data, classes }) => {
   return (
     <TableContainer component={Paper}>
-      <Table size="small">
+      <Table size="small" className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>PROVINCE</TableCell>
@@ -57,13 +73,13 @@ const ProvinceTable = ({ data }) => {
             return (
               <TableRow key={index}>
                 <TableCell>
-                  <Typography>{item.province}</Typography>
+                  <Typography align="left">{item.province}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{item.confirmed}</Typography>
+                  <Typography>{numberFormat(item.confirmed)}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{item.deaths}</Typography>
+                  <Typography>{numberFormat(item.deaths)}</Typography>
                 </TableCell>
               </TableRow>
             );
@@ -74,9 +90,9 @@ const ProvinceTable = ({ data }) => {
   );
 };
 
-const ProvinceChart = ({ data }) => {
+const ProvinceChart = ({ data, theme }) => {
   return (
-    <ResponsiveContainer width="100%" height={500}>
+    <ResponsiveContainer width="100%" height={600}>
       <ComposedChart
         data={data}
         margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
@@ -96,7 +112,9 @@ const ProvinceChart = ({ data }) => {
             angle: -90,
             position: "insideLeft",
             offset: 0,
+            fill: theme.palette.text.primary,
           }}
+          tickFormatter={(value) => numberFormat(value)}
         />
         <YAxis
           yAxisId="right"
@@ -107,17 +125,25 @@ const ProvinceChart = ({ data }) => {
             angle: 90,
             position: "insideRight",
             offset: 0,
+            fill: theme.palette.text.primary,
           }}
+          tickFormatter={(value) => numberFormat(value)}
         />
-        <Tooltip />
+        <Tooltip formatter={(value) => numberFormat(value)} />
         <Legend verticalAlign="top" />
         <Bar
           yAxisId="left"
           dataKey="confirmed"
-          fill="#ec407a"
+          fill={theme.palette.cases.confirmed}
           shape={<TriangleBar />}
-          label={{ position: "top" }}
+          // label={{ position: "top" }}
         >
+          {/* <LabelList
+            position="top"
+            formatter={(value) => numberFormat(value)}
+            fill={theme.palette.text.primary}
+          /> */}
+          >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} />
           ))}
@@ -125,10 +151,14 @@ const ProvinceChart = ({ data }) => {
         <Bar
           yAxisId="right"
           dataKey="deaths"
-          fill="#607d8b"
+          fill={theme.palette.cases.deaths}
           shape={<TriangleBar />}
-          label={{ position: "top" }}
         >
+          {/* <LabelList
+            position="top"
+            formatter={(value) => numberFormat(value)}
+            fill={theme.palette.text.primary}
+          /> */}
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} />
           ))}
@@ -137,55 +167,40 @@ const ProvinceChart = ({ data }) => {
     </ResponsiveContainer>
   );
 };
-const ProvinceSummary = ({ tableData, themes }) => {
-  // console.log("TABLE DATA", tableData);
+
+const ProvinceSummary = ({ tableData, theme }) => {
+  const classes = useStyles();
+
   const sortedData = tableData
     ? tableData.sort(compareValues("confirmed", "desc"))
     : [];
 
-  // console.log("sorted", sortedData);
   return (
-    <>
-      <Grid
-        container
-        align="center"
-        spacing={5}
-        style={{ padding: "20px 50px" }}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h4" align="left">
-            Confirmed COVID-19 cases in Canada by province and territory
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          lg={4}
-          align="center"
-          style={{ marginLeft: "auto", marginRight: "auto" }}
-        >
-          <Paper align="center">
-            <ProvinceTable data={sortedData} />
-          </Paper>
-        </Grid>
-        <Grid
-          item
-          lg={8}
-          align="center"
-          style={{ display: "flex", alignItems: "stretch" }}
-        >
-          <Paper
-            style={{
-              flex: "1 1 600px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <ProvinceChart data={sortedData} />
-          </Paper>
-        </Grid>
+    <Grid
+      container
+      align="center"
+      spacing={3}
+      className={classes.gridContainer}
+    >
+      <Grid item xs={12}>
+        <Typography variant="h4" align="left">
+          Confirmed COVID-19 cases in Canada by province and territory
+        </Typography>
       </Grid>
-    </>
+      <Grid item lg={4} className={classes.gridItem}>
+        <ProvinceTable
+          data={sortedData}
+          theme={theme}
+          const
+          classes={classes}
+        />
+      </Grid>
+      <Grid item lg={8} className={classes.gridItem}>
+        <Paper className={classes.chartWrapper}>
+          <ProvinceChart data={sortedData} theme={theme} />
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 

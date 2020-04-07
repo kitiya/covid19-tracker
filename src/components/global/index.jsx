@@ -4,8 +4,8 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 
 import GlobalSummary from "./global-summary";
-import GlobalTable from "./global-table";
-import GlobalChart from "./global-charts";
+import CountriesTable from "./countries-table";
+import CountriesChart from "./countries-chart";
 import GlobalSeries from "./global-series";
 import CovidCurves from "./covid-curves";
 import { SimpleCard } from "../../components/cards/simple-card";
@@ -56,15 +56,14 @@ const Global = () => {
             </Grid>
             <Grid item md={6} align="center" className={classes.gridItem}>
               <SimpleCard title="Cumulative Confirmed Cases by Country">
-                <GlobalChart data={global.slice(0, 20)} />
+                <CountriesChart data={global.slice(0, 15)} theme={theme} />
               </SimpleCard>
             </Grid>
           </Grid>
         </Grid>
-
         <Grid item xs={12} align="center" className={classes.gridItem}>
           <SimpleCard title="Cases by Country">
-            <GlobalTable global={global} />
+            <CountriesTable global={global} />
           </SimpleCard>
         </Grid>
       </Grid>

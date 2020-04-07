@@ -10,7 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "./components/header/header";
 
 import HomePage from "./pages/home/home";
-import CanadaPage from "./pages/canada/canada";
+import CountryPage from "./pages/country/country";
 import AboutPage from "./pages/about/about";
 import MuiSandboxPage from "./pages/sandbox/mui/mui-sandbox";
 import ReChartSandboxPage from "./pages/sandbox/rechart/rechart-sandbox";
@@ -77,7 +77,7 @@ function App() {
 
           <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route exact path="/canada" component={CanadaPage} />
+            <Route exact path="/canada" component={CountryPage} />
             <Route exact path="/chart" component={HomePage} />
             <Route exact path="/about" component={AboutPage} />
             <Route exact path="/mui-sandbox" component={MuiSandboxPage} />

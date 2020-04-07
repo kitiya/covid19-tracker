@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -6,14 +9,13 @@ import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 
-import { makeStyles } from "@material-ui/core/styles";
-
-import MiniChart from "../../components/charts/minichart";
+import MiniChart from "../charts/minichart";
+import { numberFormat } from "../../util/formatter";
 
 const useStyles = makeStyles((theme) => {
   return {
     container: {
-      padding: "30px 50px",
+      padding: 25,
       justifyContent: "center",
     },
     confirmed: {
@@ -88,8 +90,8 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
     <Grid container spacing={1}>
       <Grid item xs={4}>
         <SummaryCard
-          todayCases={`[+${countrySummary.todayCases}]`}
-          totalCases={countrySummary.cases}
+          todayCases={`[+${numberFormat(countrySummary.todayCases)}]`}
+          totalCases={numberFormat(countrySummary.cases)}
           chartData={countrySeries.confirmed}
           title="Confirmed"
           classes={classes}
@@ -101,7 +103,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
       <Grid item xs={4}>
         <SummaryCard
           todayCases={"[NA]"}
-          totalCases={countrySummary.recovered}
+          totalCases={numberFormat(countrySummary.recovered)}
           chartData={countrySeries.recovered}
           title="Recovered"
           classes={classes}
@@ -111,8 +113,8 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
       </Grid>
       <Grid item xs={4}>
         <SummaryCard
-          todayCases={`[+${countrySummary.todayDeaths}]`}
-          totalCases={countrySummary.deaths}
+          todayCases={`[+${numberFormat(countrySummary.todayDeaths)}]`}
+          totalCases={numberFormat(countrySummary.deaths)}
           chartData={countrySeries.deaths}
           title="Deaths"
           classes={classes}
@@ -150,12 +152,72 @@ const SummaryMessage = () => {
   );
 };
 
-const CountrySummary = ({ countrySummary, countrySeries, theme }) => {
+const CountrySummary = ({ theme }) => {
+  const [countrySummary, setCountrySummary] = useState([]);
+  const [countrySeries, setCountrySeries] = useState([]);
+
   const classes = useStyles();
+
+  // fetch country summary
+  useEffect(() => {
+    function fetchCountrySummary() {
+      axios
+        .get("https://corona.lmao.ninja/countries/")
+        .then((response) => {
+          const countries = response.data;
+          const countryData = countries.filter((country) => {
+            return country.country === "Canada";
+          });
+
+          setCountrySummary(countryData[0]);
+        })
+        .catch((err) => {
+          console.log("[Fetch country summary]", err);
+        });
+    }
+    fetchCountrySummary();
+  }, []);
+
+  // fetch country series
+  useEffect(() => {
+    const fetchCountrySeries = () => {
+      axios
+        .get(`https://corona.lmao.ninja/v2/historical/canada/`)
+        .then((response) => {
+          const caseData = response.data.timeline;
+
+          let confirmedCases = Object.entries(caseData.cases).map((item) => {
+            return { date: item[0], cases: item[1] };
+          });
+
+          let recoveredCases = Object.entries(caseData.recovered).map(
+            (item) => {
+              return { date: item[0], cases: item[1] };
+            }
+          );
+
+          let deathCases = Object.entries(caseData.deaths).map((item) => {
+            return { date: item[0], cases: item[1] };
+          });
+
+          const cases = {
+            confirmed: confirmedCases,
+            recovered: recoveredCases,
+            deaths: deathCases,
+          };
+          setCountrySeries(cases);
+        })
+        .catch((err) => {
+          console.log("[Fetch country series]", err);
+        });
+    };
+
+    fetchCountrySeries();
+  }, []);
 
   return (
     <Grid container spacing={4} className={classes.container}>
-      <Grid item md={4}>
+      <Grid item md lg={5} xl={4}>
         <SummaryCards
           countrySummary={countrySummary}
           countrySeries={countrySeries}
@@ -163,7 +225,7 @@ const CountrySummary = ({ countrySummary, countrySeries, theme }) => {
           classes={classes}
         />
       </Grid>
-      <Grid item md={8}>
+      <Grid item md lg={7} xl={8}>
         <SummaryMessage />
       </Grid>
     </Grid>
