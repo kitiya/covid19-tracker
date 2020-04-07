@@ -4,7 +4,7 @@ import { useTheme } from "@material-ui/core/styles";
 
 import CountrySummary from "./country-summary";
 import ProvinceSummary from "./province-summary";
-// import ProvincesSeries from "./provinces-series";
+import ProvincesSeries from "./provinces-series";
 import { canadianProvinceDB, canadianProvincialCodeDB } from "../../store";
 
 const Canada = () => {
@@ -18,7 +18,7 @@ const Canada = () => {
       axios
         .get("https://corona.lmao.ninja/v2/jhucsse")
         .then((response) => {
-          console.log("DATA", response.data);
+          // console.log("DATA", response.data);
           const data = response.data.filter((country) => {
             return (
               country.country === "Canada" &&
@@ -42,7 +42,7 @@ const Canada = () => {
             return acc;
           }, []);
           setProvinceTableData(tableData);
-          console.log("Table Data", tableData);
+          // console.log("Table Data", tableData);
         })
         .catch((err) => {
           console.log("[Fetch province]", err);
@@ -56,7 +56,7 @@ const Canada = () => {
     <>
       <CountrySummary theme={theme} />
       <ProvinceSummary tableData={provinceTableData} theme={theme} />
-      {/* <ProvincesSeries /> */}
+      <ProvincesSeries />
     </>
   );
 };
