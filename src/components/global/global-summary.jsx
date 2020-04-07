@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
     cardContainer: {
-      minWidth: "250px",
+      minWidth: "200px",
     },
     title: {
       textAlign: "center",
@@ -93,7 +93,7 @@ const SummaryCard = ({ title, todayCases, totalCases, classes, cardClass }) => {
         <Typography variant="body1" className={classes.newCases}>
           {todayCases}
         </Typography>
-        <Typography variant="h3" className={classes.totalCases}>
+        <Typography variant="h4" className={classes.totalCases}>
           {totalCases}
         </Typography>
       </CardContent>

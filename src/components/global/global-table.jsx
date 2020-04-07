@@ -13,6 +13,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => {
   return {
+    tableContainer: {
+      height: "80vh",
+    },
     flagIcon: {
       maxWidth: 30,
       marginRight: 10,
@@ -40,8 +43,8 @@ const GlobalTable = ({ global }) => {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
-      <Table size="medium" className={classes.table}>
+    <TableContainer component={Paper} className={classes.tableContainer}>
+      <Table size="medium" stickyHeader className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell colSpan={2}>Country</TableCell>

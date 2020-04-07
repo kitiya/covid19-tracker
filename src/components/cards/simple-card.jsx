@@ -6,6 +6,8 @@ const useStyles = makeStyles((theme) => {
   return {
     cardHeader: {
       background: theme.palette.background.card,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
     },
     cardContent: {
       "& > div": {

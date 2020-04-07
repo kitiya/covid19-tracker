@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "center",
       alignItems: "stretch",
     },
-    gridItem: { paddingTop: 30 },
+    gridItem: { paddingTop: 30, width: "100%" },
   };
 });
 
