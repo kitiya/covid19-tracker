@@ -13,7 +13,7 @@ import HomePage from "./pages/home/home";
 import CountryPage from "./pages/country/country";
 import AboutPage from "./pages/about/about";
 import MuiSandboxPage from "./pages/sandbox/mui/mui-sandbox";
-import ReChartSandboxPage from "./pages/sandbox/rechart/rechart-sandbox";
+import ReChartSandboxPage from "./pages/sandbox/recharts/rechart-sandbox";
 import RapidApiPage from "./pages/sandbox/rapid-api/rapid-api";
 
 import "./App.css";

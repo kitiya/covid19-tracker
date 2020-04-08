@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import clsx from "clsx";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -19,24 +20,28 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "center",
     },
     confirmed: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.confirmed,
       },
     },
-    active: {
-      "& *": {
-        color: theme.palette.cases.active,
-      },
-    },
     recovered: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.recovered,
       },
     },
     deaths: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.deaths,
       },
+    },
+    confirmedBorder: {
+      borderTop: `5px solid ${theme.palette.cases.confirmed}`,
+    },
+    deathsBorder: {
+      borderTop: `5px solid ${theme.palette.cases.deaths}`,
+    },
+    recoveredBorder: {
+      borderTop: `5px solid ${theme.palette.cases.recovered}`,
     },
     title: {
       textAlign: "center",
@@ -74,7 +79,7 @@ const SummaryCard = ({
         <Typography variant="body1" className={classes.newCases}>
           {todayCases}
         </Typography>
-        <Typography variant="h5" className={classes.totalCases}>
+        <Typography variant="h4" className={classes.totalCases}>
           {totalCases}
         </Typography>
         <Box justifyContent="center">
@@ -95,7 +100,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
           chartData={countrySeries.confirmed}
           title="Confirmed"
           classes={classes}
-          cardClass={classes.confirmed}
+          cardClass={clsx(classes.confirmed, classes.confirmedBorder)}
           stroke={theme.palette.cases.confirmed}
         />
       </Grid>
@@ -107,7 +112,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
           chartData={countrySeries.recovered}
           title="Recovered"
           classes={classes}
-          cardClass={classes.recovered}
+          cardClass={clsx(classes.recovered, classes.recoveredBorder)}
           stroke={theme.palette.cases.recovered}
         />
       </Grid>
@@ -118,7 +123,7 @@ const SummaryCards = ({ countrySummary, countrySeries, theme, classes }) => {
           chartData={countrySeries.deaths}
           title="Deaths"
           classes={classes}
-          cardClass={classes.deaths}
+          cardClass={clsx(classes.deaths, classes.deathsBorder)}
           stroke={theme.palette.cases.deaths}
         />
       </Grid>

@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+
+import { useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 
-import { SimpleCard } from "../../components/cards/simple-card";
 import CountrySummary from "./country-summary";
 import ProvinceSummary from "./province-summary";
-import ProvincesSeries from "./provinces-series";
+import ProvincesCurves from "./provinces-curves";
 import { canadianProvinceDB, canadianProvincialCodeDB } from "../../store";
-
-const useStyles = makeStyles((theme) => {
-  return {
-    // gridContainer: { padding: "0 25px" },
-    gridContainerItem: {
-      padding: "0 25px",
-      justifyContent: "center",
-      alignItems: "stretch",
-    },
-    gridItem: { paddingTop: 30, width: "100%" },
-  };
-});
 
 const Canada = () => {
   const [provinceTableData, setProvinceTableData] = useState([]);
 
-  const classes = useStyles();
   const theme = useTheme();
 
   // fetch province summary
@@ -69,7 +56,7 @@ const Canada = () => {
 
   return (
     <>
-      <Grid container className={classes.gridContainer}>
+      <Grid container>
         <Grid item xs={12}>
           <CountrySummary theme={theme} />
         </Grid>
@@ -77,18 +64,7 @@ const Canada = () => {
           <ProvinceSummary tableData={provinceTableData} theme={theme} />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={3} className={classes.gridContainerItem}>
-            <Grid item md={6} className={classes.gridItem}>
-              <SimpleCard title="Province by Province: Comparing coronavirus cases">
-                <ProvincesSeries />
-              </SimpleCard>
-            </Grid>
-            <Grid item md={6} className={classes.gridItem}>
-              <SimpleCard title="Province by Province: Comparing coronavirus cases">
-                <ProvincesSeries />
-              </SimpleCard>
-            </Grid>
-          </Grid>
+          <ProvincesCurves theme={theme} />
         </Grid>
       </Grid>
     </>

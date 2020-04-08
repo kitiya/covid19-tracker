@@ -63,9 +63,9 @@ const ProvinceTable = ({ data, classes }) => {
       <Table size="small" className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>PROVINCE</TableCell>
-            <TableCell>CONFIRMED CASES</TableCell>
-            <TableCell>DEATHS</TableCell>
+            <TableCell>Province</TableCell>
+            <TableCell>Confirmed Cases</TableCell>
+            <TableCell>Deaths</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -184,7 +184,7 @@ const ProvinceSummary = ({ tableData, theme }) => {
     >
       <Grid item xs={12}>
         <Typography variant="h4" align="left">
-          Confirmed COVID-19 cases in Canada by province and territory
+          COVID-19 cases in Canada by province and territory
         </Typography>
       </Grid>
       <Grid item lg={4} className={classes.gridItem}>

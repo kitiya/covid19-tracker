@@ -17,24 +17,36 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "center",
     },
     confirmed: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.confirmed,
       },
     },
     active: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.active,
       },
     },
     recovered: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.recovered,
       },
     },
     deaths: {
-      "& *": {
+      "& h4": {
         color: theme.palette.cases.deaths,
       },
+    },
+    confirmedBorder: {
+      borderTop: `5px solid ${theme.palette.cases.confirmed}`,
+    },
+    deathsBorder: {
+      borderTop: `5px solid ${theme.palette.cases.deaths}`,
+    },
+    activeBorder: {
+      borderTop: `5px solid ${theme.palette.cases.active}`,
+    },
+    recoveredBorder: {
+      borderTop: `5px solid ${theme.palette.cases.recovered}`,
     },
     cardContainer: {
       minWidth: "200px",
@@ -117,7 +129,7 @@ const SummaryCards = ({ globalSummary: data, classes }) => {
             todayCases={`[+${todayCases}]`}
             totalCases={cases}
             classes={classes}
-            cardClass={classes.confirmed}
+            cardClass={clsx(classes.confirmed, classes.confirmedBorder)}
           />
         </Grid>
         <Grid item xs>
@@ -126,7 +138,7 @@ const SummaryCards = ({ globalSummary: data, classes }) => {
             todayCases={`[+${todayDeaths}]`}
             totalCases={deaths}
             classes={classes}
-            cardClass={classes.deaths}
+            cardClass={clsx(classes.deaths, classes.deathsBorder)}
           />
         </Grid>
       </Grid>
@@ -136,7 +148,7 @@ const SummaryCards = ({ globalSummary: data, classes }) => {
             title="Active"
             totalCases={active}
             classes={classes}
-            cardClass={classes.active}
+            cardClass={clsx(classes.active, classes.activeBorder)}
           />
         </Grid>
         <Grid item xs>
@@ -144,7 +156,7 @@ const SummaryCards = ({ globalSummary: data, classes }) => {
             title="Recovered"
             totalCases={recovered}
             classes={classes}
-            cardClass={classes.recovered}
+            cardClass={clsx(classes.recovered, classes.recoveredBorder)}
           />
         </Grid>
       </Grid>
