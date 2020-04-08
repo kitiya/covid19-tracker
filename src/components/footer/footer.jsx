@@ -1,25 +1,49 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { Paper, Typography, Container } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1
-  }
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      marginTop: 50,
+      height: "50vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      background: theme.palette.background.dark,
+      "& *": {
+        color: theme.palette.text.light,
+      },
+    },
+    container: {
+      textAlign: "center",
+    },
+    image: {
+      marginTop: 20,
+      height: "30vh",
+    },
+  };
 });
 
 const Footer = () => {
   const classes = useStyles();
+  const urlPath = process.env.PUBLIC_URL;
   return (
-    <Paper className={classes.root}>
-      <Tabs value={0} indicatorColor="primary" textColor="primary" centered>
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
-      </Tabs>
-    </Paper>
+    <footer className={classes.root}>
+      <Container className={classes.container}>
+        <Typography variant="h5">
+          WE STAND WITH EVERYONE FIGHTING ON THE FRONTLINES.
+          <br />
+          Thank you for your service.
+        </Typography>
+        <img
+          alt=""
+          src={`${urlPath}/images/svg/super_thank_you.svg`}
+          className={classes.image}
+        />
+      </Container>
+    </footer>
   );
 };
 

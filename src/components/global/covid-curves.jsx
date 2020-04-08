@@ -109,11 +109,11 @@ const CovidCurves = () => {
     const path = "https://corona.lmao.ninja/v2/historical";
     const canadaRequest = axios.get(`${path}/canada`);
     const usaRequest = axios.get(`${path}/usa`);
-    const italyRequest = axios.get(`${path}/italy`);
     const spainRequest = axios.get(`${path}/spain`);
+    const italyRequest = axios.get(`${path}/italy`);
     const germanyRequest = axios.get(`${path}/germany`);
-    const chinaRequest = axios.get(`${path}/china`);
     const franceRequest = axios.get(`${path}/france`);
+    const chinaRequest = axios.get(`${path}/china`);
     const iranRequest = axios.get(`${path}/iran`);
 
     const fetchCountriesSeries = () => {
@@ -132,11 +132,11 @@ const CovidCurves = () => {
           axios.spread((...responses) => {
             const canadaResponse = responses[0].data;
             const usaResponse = responses[1].data;
-            const spainResponse = responses[3].data;
-            const italyResponse = responses[2].data;
+            const spainResponse = responses[2].data;
+            const italyResponse = responses[3].data;
             const germanyResponse = responses[4].data;
-            const franceResponse = responses[6].data;
-            const chinaResponse = responses[5].data;
+            const franceResponse = responses[5].data;
+            const chinaResponse = responses[6].data;
             const iranResponse = responses[7].data;
 
             const canadaCases = Object.entries(

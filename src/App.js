@@ -8,6 +8,7 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Header from "./components/header/header";
+import Footer from "./components/footer/footer";
 
 import HomePage from "./pages/home/home";
 import CountryPage from "./pages/country/country";
@@ -48,6 +49,7 @@ let theme = createMuiTheme({
     success: { main: "#009688" },
     text: {
       primary: "#5c5d5f",
+      light: "#eeeeef",
       header: "#343638",
       activeNavLink: "#f58a97",
     },
@@ -97,6 +99,7 @@ function App() {
               }}
             />
           </Switch>
+          <Footer />
         </HashRouter>
       </React.Fragment>
     </MuiThemeProvider>
