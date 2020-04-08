@@ -8,31 +8,31 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const useStyles = makeStyles(theme => {
+const useStyles = makeStyles((theme) => {
   return {
     toolbar: {
-      justifyContent: "space-between"
+      justifyContent: "space-between",
     },
     logoWrapper: {
       display: "flex",
       alignItems: "center",
-      color: "white"
+      color: "white",
     },
     logo: {
       height: 50,
-      marginRight: 10
+      marginRight: 10,
     },
     navlink: {
       textDecoration: "none",
-      color: "white"
+      color: "white",
     },
     activeNavLink: {
-      color: theme.palette.text.activeNavLink
+      color: theme.palette.text.activeNavLink,
     },
     dropdownNavLink: {
       textDecoration: "none",
-      color: "black"
-    }
+      color: "black",
+    },
   };
 });
 
@@ -54,7 +54,7 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
 
-  const handleSandboxClick = event => {
+  const handleSandboxClick = (event) => {
     console.log(event.currentTarget);
     setAnchorEl(event.currentTarget);
   };
@@ -94,7 +94,7 @@ const Header = () => {
           <Button>
             <MenuText path="/about" text="About" classes={classes}></MenuText>
           </Button>
-          <Button
+          {/* <Button
             aria-controls="simple-menu"
             aria-haspopup="true"
             onClick={handleSandboxClick}
@@ -134,7 +134,7 @@ const Header = () => {
                 dropdown={true}
               ></MenuText>
             </MenuItem>
-          </Menu>
+          </Menu> */}
         </div>
       </Toolbar>
     </AppBar>
