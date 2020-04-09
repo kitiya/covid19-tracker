@@ -86,11 +86,6 @@ const Message = () => {
         surges in the number of cases when there are a high number of tests done
         in a short time frame.
       </Typography>
-      <Typography variant="body1">
-        The same is true for Canada's provinces and territories. Different rates
-        in testing and changes in how regions are recording results can result
-        in higher numbers for some regions over others.
-      </Typography>
     </Box>
   );
 };

@@ -57,6 +57,7 @@ let theme = createMuiTheme({
       dark: "#1E2023",
       card: "#eeeeef",
       tableHeader: "#2a2d31",
+      white: "#ffffff",
     },
     cases: {
       confirmed: "#EC407A",

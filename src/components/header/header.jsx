@@ -92,7 +92,7 @@ const Header = () => {
             <MenuText path="/canada" text="Canada" classes={classes}></MenuText>
           </Button>
           <Button>
-            <MenuText path="/about" text="About" classes={classes}></MenuText>
+            <MenuText path="/about" text="FAQ" classes={classes}></MenuText>
           </Button>
           {/* <Button
             aria-controls="simple-menu"
