@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -51,17 +49,8 @@ const MenuText = ({ path, text, classes, dropdown }) => {
   );
 };
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const classes = useStyles();
 
-  const handleSandboxClick = (event) => {
-    console.log(event.currentTarget);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleSandboxClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
@@ -92,7 +81,7 @@ const Header = () => {
             <MenuText path="/canada" text="Canada" classes={classes}></MenuText>
           </Button>
           <Button>
-            <MenuText path="/about" text="FAQ" classes={classes}></MenuText>
+            <MenuText path="/about" text="FAQs" classes={classes}></MenuText>
           </Button>
           {/* <Button
             aria-controls="simple-menu"

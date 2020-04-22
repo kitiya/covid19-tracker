@@ -29,7 +29,7 @@ const Global = () => {
   useEffect(() => {
     const fetchCountrySummary = () => {
       axios
-        .get("https://corona.lmao.ninja/countries?sort=cases")
+        .get("https://corona.lmao.ninja/v2/countries?sort=cases")
         .then((response) => setGlobal(response.data));
     };
 
@@ -56,7 +56,7 @@ const Global = () => {
             </Grid>
             <Grid item md={6} align="center" className={classes.gridItem}>
               <SimpleCard title="Cumulative Confirmed Cases by Country">
-                <CountriesChart data={global.slice(0, 15)} theme={theme} />
+                <CountriesChart data={global.slice(0, 10)} theme={theme} />
               </SimpleCard>
             </Grid>
           </Grid>

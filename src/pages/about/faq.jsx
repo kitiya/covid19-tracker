@@ -66,7 +66,7 @@ const QAndAPanel = ({ question, answers, link, classes }) => {
                 key={index}
                 className={classes.paragraphItem}
               >
-                {console.log(answer)}
+                {/* {console.log(answer)} */}
                 {answer}
                 <br />
               </Typography>

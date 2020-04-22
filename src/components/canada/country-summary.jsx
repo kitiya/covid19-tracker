@@ -167,7 +167,7 @@ const CountrySummary = ({ theme }) => {
   useEffect(() => {
     function fetchCountrySummary() {
       axios
-        .get("https://corona.lmao.ninja/countries/")
+        .get("https://corona.lmao.ninja/v2/countries/")
         .then((response) => {
           const countries = response.data;
           const countryData = countries.filter((country) => {

@@ -165,10 +165,9 @@ const GlobalSummary = ({ theme }) => {
   // fetch global summary
   useEffect(() => {
     const fetchGlobalSummary = () => {
-      axios.get(`https://corona.lmao.ninja/all`).then((response) => {
+      axios.get(`https://corona.lmao.ninja/v2/all`).then((response) => {
         setGlobalSummary(response.data);
       });
-      // console.log(globalSummary);
     };
     fetchGlobalSummary();
   }, []);
